@@ -1,6 +1,10 @@
 package lk.viraj.backend.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+
 public class LoginDTO {
+    @Email(message = "Email should be valid")
     private String email;
     private String password;
 

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Digital Art Gallery</title>
     <meta name="description" content="Home page of Digital Art Gallery">
-    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="framework/bootstrap/bootstrap.min.css">
     <style>
         body::-webkit-scrollbar {
             display: none;
@@ -51,7 +51,7 @@
             <div class="col-12 col-lg-10 mx-auto">
                 <div class="text-center position-relative">
                     <img class="img-fluid"
-                         src="img/illustrations/website-designing.svg"
+                         src="assets/img/illustrations/website-designing.svg"
                          style="width: 800px;" alt="art painting"></div>
             </div>
         </div>
@@ -111,6 +111,37 @@
         </div>
     </div>
 </footer>
-<script src="bootstrap/bootstrap.bundle.min.js"></script>
+<script src="framework/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="framework/jquery/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function retrieveAccount() {
+            //check if token is present
+            const token = localStorage.getItem('token')
+            const email = localStorage.getItem('email')
+
+            if (token !== null || email !== null) {
+                $.ajax({
+                    url: 'http://localhost:8080/api/v1/user/retrieve?email=' + email,
+                    type: 'GET',
+                    headers: {"Authorization": "Bearer " + token},
+                    success: function (res) {
+                        if (res.data.role === 'ADMIN') {
+                            window.location.href = "admin.html";
+                        }else {
+                            window.location.href = 'user.html';
+                            console.log(res.data.role)
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                })
+            }
+        }
+
+        retrieveAccount()
+    })
+</script>
 </body>
 </html>

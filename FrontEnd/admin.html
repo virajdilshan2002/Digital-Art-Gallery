@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin | Dashboard</title>
+    <meta name="description" content="Admin Dashboard">
+    <link rel="stylesheet" href="framework/bootstrap/bootstrap.min.css">
+    <style>
+        body::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3 bg-light shadow" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center"
+           href="user.html"><span>Digital Art Gallery</span></a>
+        <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
+                class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="user.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="">Contact Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="">FAQ</a></li>
+            </ul>
+        </div>
+        <button id="logOutBtn" class="btn btn-danger shadow rounded-5 px-4" type="button">Log out</button>
+    </div>
+</nav>
+
+<header class="pt-5">
+    <div class="container pt-4 pt-xl-5">
+        <div class="row pt-5">
+            <div class="col-md-8 text-center text-md-start mx-auto">
+                <div class="text-center"><h1 class="display-4 fw-bold mb-5">Welcome To Digital
+                    Art&nbsp;<br><span id="userName"></span>!</h1>
+                    <p class="fs-5 text-muted mb-5">Sell your digital art or, hand painted art.</p>
+                    <div class="d-flex justify-content-center flex-wrap column-gap-2"
+                         data-bs-theme="light">
+                        <div class="shadow-lg mb-3">
+                            <input class="form-control" type="text" name="search"
+                                   placeholder="Art"></div>
+                        <div class="shadow-lg mb-3">
+                            <button class="btn btn-primary px-4" type="button">Search Art</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<script src="framework/bootstrap/bootstrap.min.css"></script>
+<script src="framework/jquery/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#logOutBtn').click(function () {
+            localStorage.removeItem('token');
+            localStorage.removeItem('email');
+            window.location.href = 'index.html';
+        });
+
+        function loadProfile() {
+            //check if token is present
+            const token = localStorage.getItem('token')
+            const email = localStorage.getItem('email')
+            if (token === null || email === null) {
+                window.location.href = 'index.html';
+                alert("Session expired, please login again!")
+            } else {
+                //get user profile
+                $.ajax({
+                    url: 'http://localhost:8080/api/v1/user/retrieve?email=' + email,
+                    type: 'GET',
+                    headers: {"Authorization": "Bearer " + token},
+                    success: function (res) {
+                        $('#userName').text(res.data.name);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        alert("Something went wrong, please login again!");
+                        window.location.href = 'index.html';
+                    }
+                })
+            }
+        }
+
+        loadProfile();
+    });
+</script>
+</body>
+</html>

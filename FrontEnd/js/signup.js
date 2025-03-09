@@ -32,10 +32,12 @@ $(document).ready(function () {
                 "role": null
             }),
             success: function (response) {
+                localStorage.setItem("token", response.data.token);
+                window.location.href = "index.html";
                 alert(response.message);
             },
             error: function (error) {
-                console.log(error);
+                alert(error.responseJSON.message);
             },
         });
     });

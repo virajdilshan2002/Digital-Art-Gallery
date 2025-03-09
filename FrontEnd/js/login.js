@@ -14,13 +14,18 @@ $(document).ready(function () {
                 "password": password
             }),
             success: function (response) {
-                alert(response.message);
+                localStorage.setItem("token", response.data.token);
+                localStorage.setItem("email", response.data.user.email);
+                localStorage.setItem("name", response.data.user.name);
+
+                if (response.data.user.role === "ADMIN") {
+                    window.location.href = "admin.html";
+                }else {
+                    window.location.href = "user.html";
+                }
             },
             error: function (error) {
                 alert(error.responseJSON.message);
-                if (confirm("Do you want to register?")) {
-                    window.location.href = "signup.html";
-                }
             },
         });
     });

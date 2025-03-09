@@ -9,6 +9,7 @@ import lk.viraj.backend.util.JwtUtil;
 import lk.viraj.backend.util.VarList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,9 +25,17 @@ public class UserController {
         this.jwtUtil = jwtUtil;
     }
 
+    @GetMapping(path = "/retrieve", params = "email")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    public ResponseEntity<ResponseDTO> getUserProfile(@RequestParam("email") String email) {
+        System.out.println("Email: " + email);
+        UserDTO userDTO = userService.searchUser(email);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "User Account Found!", userDTO));
+    }
+
     @PostMapping("/signup")
-    public ResponseEntity<ResponseDTO> signUpUser(@RequestBody @Valid UserDTO userDTO) {
-        System.out.println("UserDTO: " + userDTO);
+    public ResponseEntity<ResponseDTO> signUpUser(@Valid @RequestBody UserDTO userDTO) {
         try {
             int res = userService.saveUser(userDTO);
             switch (res) {
