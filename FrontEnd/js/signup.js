@@ -8,18 +8,18 @@ $(document).ready(function () {
         const address = $("#address").val();
         const nic = $("#nic").val();
         const contact = $("#contact").val();
-        const dob = $("#dob").val();
+        // const dob = $("#dob").val();
         const password = $("#password").val();
         const confirmPassword = $("#confirmPassword").val();
 
         if (password !== confirmPassword) {
-            alert("Passwords do not match!");
+            errorAlert("Passwords do not match!")
             return;
         }
 
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/v1/user/signup",
+            url: "http://localhost:8080/api/v1/sysuser/signup",
             contentType: 'application/json',
             data: JSON.stringify({
                 "email": email,
@@ -28,17 +28,36 @@ $(document).ready(function () {
                 "contact": contact,
                 "address": address,
                 "nic": nic,
-                "dob": dob,
                 "role": null
             }),
             success: function (response) {
                 localStorage.setItem("token", response.data.token);
+                localStorage.setItem("email", response.data.user.email);
+                localStorage.setItem("name", response.data.user.name);
                 window.location.href = "index.html";
-                alert(response.message);
             },
             error: function (error) {
-                alert(error.responseJSON.message);
+                let data = error.responseJSON.data;
+                if (data.name != null){
+                    errorAlert(data.name)
+                }else if (data.nic != null){
+                    errorAlert(data.nic)
+                }else if(data.address != null){
+                    errorAlert(data.address)
+                }else if (data.contact != null){
+                    errorAlert(data.contact)
+                }else if (data.password != null){
+                    errorAlert(data.password)
+                }
             },
         });
     });
+
+    function errorAlert(message){
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: message,
+        });
+    }
 })

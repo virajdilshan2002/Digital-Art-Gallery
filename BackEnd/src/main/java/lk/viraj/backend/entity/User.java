@@ -23,7 +23,6 @@ public class User implements Serializable {
     private String contact;
     private String address;
     private String nic;
-    private Date dob;
     private String role;
 
     public User() {
@@ -37,7 +36,6 @@ public class User implements Serializable {
         this.contact = contact;
         this.address = address;
         this.nic = nic;
-        this.dob = dob;
         this.role = role;
     }
 
@@ -95,14 +93,6 @@ public class User implements Serializable {
 
     public void setNic(String nic) {
         this.nic = nic;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
     }
 
     public String getRole() {

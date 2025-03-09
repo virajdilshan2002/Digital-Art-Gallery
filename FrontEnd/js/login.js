@@ -25,7 +25,11 @@ $(document).ready(function () {
                 }
             },
             error: function (error) {
-                alert(error.responseJSON.message);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Invalid Email Or Password!",
+                });
             },
         });
     });

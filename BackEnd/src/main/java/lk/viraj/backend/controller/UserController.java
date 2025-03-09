@@ -13,7 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/user")
+@RequestMapping("api/v1/sysuser")
 @CrossOrigin
 public class UserController {
     private final UserService userService;
@@ -26,12 +26,21 @@ public class UserController {
     }
 
     @GetMapping(path = "/retrieve", params = "email")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    public ResponseEntity<ResponseDTO> getUserProfile(@RequestParam("email") String email) {
-        System.out.println("Email: " + email);
-        UserDTO userDTO = userService.searchUser(email);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDTO(VarList.OK, "User Account Found!", userDTO));
+    @PreAuthorize("hasAuthority('USER') or hasAnyAuthority('ADMIN')")
+    public ResponseEntity<ResponseDTO> getUserOrAdmin(@RequestParam("email") String email) {
+        return searchSysUser(email);
+    }
+
+    @GetMapping(path = "/retrieve/user", params = "email")
+    @PreAuthorize("hasAuthority('USER')")
+    public ResponseEntity<ResponseDTO> getUser(@RequestParam("email") String email) {
+        return searchSysUser(email);
+    }
+
+    @GetMapping(path = "/retrieve/admin", params = "email")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ResponseDTO> getAdmin(@RequestParam("email") String email) {
+        return searchSysUser(email);
     }
 
     @PostMapping("/signup")
@@ -60,6 +69,12 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
+    }
+
+    private ResponseEntity<ResponseDTO> searchSysUser(String email){
+        UserDTO userDTO = userService.searchUser(email);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Account Found!", userDTO));
     }
 
 }

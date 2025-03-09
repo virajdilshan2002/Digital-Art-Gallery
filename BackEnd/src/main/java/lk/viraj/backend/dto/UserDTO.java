@@ -18,7 +18,6 @@ public class  UserDTO {
     private String contact;
     private String address;
     private String nic;
-    private Date dob;
     private String role;
 
     public UserDTO() {
@@ -31,7 +30,6 @@ public class  UserDTO {
         this.contact = contact;
         this.address = address;
         this.nic = nic;
-        this.dob = dob;
         this.role = role;
     }
 
@@ -83,14 +81,6 @@ public class  UserDTO {
         this.nic = nic;
     }
 
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
     public String getRole() {
         return role;
     }
@@ -108,7 +98,6 @@ public class  UserDTO {
                 ", contact='" + contact + '\'' +
                 ", address='" + address + '\'' +
                 ", nic='" + nic + '\'' +
-                ", dob=" + dob +
                 ", role='" + role + '\'' +
                 '}';
     }
