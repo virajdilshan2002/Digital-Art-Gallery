@@ -118,19 +118,17 @@
         function retrieveAccount() {
             //check if token is present
             const token = localStorage.getItem('token')
-            const email = localStorage.getItem('email')
 
-            if (token !== null || email !== null) {
+            if (token !== null) {
                 $.ajax({
-                    url: 'http://localhost:8080/api/v1/sysuser/retrieve?email=' + email,
+                    url: 'http://localhost:8080/api/v1/user/retrieve',
                     type: 'GET',
                     headers: {"Authorization": "Bearer " + token},
                     success: function (res) {
-                        if (res.data.role === 'ADMIN') {
+                        if (res.data === 'ADMIN') {
                             window.location.href = "admin.html";
                         }else {
                             window.location.href = 'user.html';
-                            console.log(res.data.role)
                         }
                     },
                     error: function (error) {

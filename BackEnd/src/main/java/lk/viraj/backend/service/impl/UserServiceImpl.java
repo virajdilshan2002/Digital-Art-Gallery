@@ -4,6 +4,7 @@ import lk.viraj.backend.dto.UserDTO;
 import lk.viraj.backend.entity.User;
 import lk.viraj.backend.repo.UserRepository;
 import lk.viraj.backend.service.UserService;
+import lk.viraj.backend.util.JwtUtil;
 import lk.viraj.backend.util.VarList;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import java.util.Set;
 @Service
 @Transactional
 public class UserServiceImpl implements UserDetailsService, UserService {
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Autowired
     private UserRepository userRepository;
@@ -43,6 +46,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole()));
         return authorities;
+    }
+
+    @Override
+    public String getUserRoleByToken(String token) {
+        return jwtUtil.getRoleFromToken(token);
+    }
+
+    @Override
+    public UserDTO getUserByToken(String token) {
+        return searchUser(jwtUtil.getUsernameFromToken(token));
     }
 
     @Override

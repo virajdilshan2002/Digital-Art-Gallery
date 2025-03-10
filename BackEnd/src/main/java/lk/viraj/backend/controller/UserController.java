@@ -13,7 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/sysuser")
+@RequestMapping("api/v1/user")
 @CrossOrigin
 public class UserController {
     private final UserService userService;
@@ -25,22 +25,20 @@ public class UserController {
         this.jwtUtil = jwtUtil;
     }
 
-    @GetMapping(path = "/retrieve", params = "email")
-    @PreAuthorize("hasAuthority('USER') or hasAnyAuthority('ADMIN')")
-    public ResponseEntity<ResponseDTO> getUserOrAdmin(@RequestParam("email") String email) {
-        return searchSysUser(email);
+    @GetMapping(path = "/retrieve")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public ResponseEntity<ResponseDTO> verifyUser(@RequestHeader("Authorization") String authorization) {
+        String role = userService.getUserRoleByToken(authorization.substring(7));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "retrieved success", role));
     }
 
-    @GetMapping(path = "/retrieve/user", params = "email")
-    @PreAuthorize("hasAuthority('USER')")
-    public ResponseEntity<ResponseDTO> getUser(@RequestParam("email") String email) {
-        return searchSysUser(email);
-    }
-
-    @GetMapping(path = "/retrieve/admin", params = "email")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ResponseDTO> getAdmin(@RequestParam("email") String email) {
-        return searchSysUser(email);
+    @GetMapping(path = "/profile")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public ResponseEntity<ResponseDTO> getProfile(@RequestHeader("Authorization") String authorization) {
+        UserDTO userByToken = userService.getUserByToken(authorization.substring(7));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "profile data retrieved success", userByToken));
     }
 
     @PostMapping("/signup")

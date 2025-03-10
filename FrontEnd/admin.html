@@ -58,21 +58,19 @@
     $(document).ready(function () {
         $('#logOutBtn').click(function () {
             localStorage.removeItem('token');
-            localStorage.removeItem('email');
             window.location.href = 'index.html';
         });
 
         function loadProfile() {
             //check if token is present
             const token = localStorage.getItem('token')
-            const email = localStorage.getItem('email')
-            if (token === null || email === null) {
+            if (token === null) {
                 window.location.href = 'index.html';
                 alert("Session expired, please login again!")
             } else {
                 //get user profile
                 $.ajax({
-                    url: 'http://localhost:8080/api/v1/sysuser/retrieve/admin?email=' + email,
+                    url: 'http://localhost:8080/api/v1/admin/profile',
                     type: 'GET',
                     headers: {"Authorization": "Bearer " + token},
                     success: function (res) {

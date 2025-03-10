@@ -33,7 +33,6 @@ public class AuthController {
 
     @PostMapping(path = "/authenticate")
     public ResponseEntity<ResponseDTO> authenticate(@RequestBody LoginDTO loginDTO) {
-        System.out.println("Authenticating User: " + loginDTO.getEmail());
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
