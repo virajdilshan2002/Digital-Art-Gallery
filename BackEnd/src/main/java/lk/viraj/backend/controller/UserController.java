@@ -7,6 +7,8 @@ import lk.viraj.backend.dto.UserDTO;
 import lk.viraj.backend.service.UserService;
 import lk.viraj.backend.util.JwtUtil;
 import lk.viraj.backend.util.VarList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     //constructor injection
     public UserController(UserService userService, JwtUtil jwtUtil) {
@@ -28,9 +31,15 @@ public class UserController {
     @GetMapping(path = "/retrieve")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<ResponseDTO> verifyUser(@RequestHeader("Authorization") String authorization) {
-        String role = userService.getUserRoleByToken(authorization.substring(7));
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDTO(VarList.OK, "retrieved success", role));
+        try {
+            String role = userService.getUserRoleByToken(authorization.substring(7));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDTO(VarList.OK, "retrieved success", role));
+        } catch (Exception e) {
+            log.error("Token processing error: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseDTO(VarList.Unauthorized, "Token validation failed", null));
+        }
     }
 
     @GetMapping(path = "/profile")
@@ -41,8 +50,8 @@ public class UserController {
                 .body(new ResponseDTO(VarList.OK, "profile data retrieved success", userByToken));
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<ResponseDTO> signUpUser(@Valid @RequestBody UserDTO userDTO) {
+    @PostMapping("/register")
+    public ResponseEntity<ResponseDTO> registerUser(@Valid @RequestBody UserDTO userDTO) {
         try {
             int res = userService.saveUser(userDTO);
             switch (res) {
@@ -67,12 +76,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
-    }
-
-    private ResponseEntity<ResponseDTO> searchSysUser(String email){
-        UserDTO userDTO = userService.searchUser(email);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDTO(VarList.OK, "Account Found!", userDTO));
     }
 
 }

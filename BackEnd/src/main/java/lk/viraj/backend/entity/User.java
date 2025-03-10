@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 import java.util.UUID;
 
 
 @Entity
-@Table(name = "systemuser")
+@Table(name = "user")
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -24,6 +25,9 @@ public class User implements Serializable {
     private String address;
     private String nic;
     private String role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Art> arts;
 
     public User() {
     }
@@ -101,5 +105,13 @@ public class User implements Serializable {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Art> getArts() {
+        return arts;
+    }
+
+    public void setArts(List<Art> arts) {
+        this.arts = arts;
     }
 }

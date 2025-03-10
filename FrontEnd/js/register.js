@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     // Signup button click event
-    $("#signup-form").submit(function (e) {
+    $("#register-form").submit(function (e) {
         e.preventDefault();
         const email = $("#email").val();
         const name = $("#name").val();
@@ -19,7 +19,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/v1/sysuser/signup",
+            url: "http://localhost:8080/api/v1/user/register",
             contentType: 'application/json',
             data: JSON.stringify({
                 "email": email,
@@ -32,8 +32,7 @@ $(document).ready(function () {
             }),
             success: function (response) {
                 localStorage.setItem("token", response.data.token);
-                localStorage.setItem("email", response.data.user.email);
-                localStorage.setItem("name", response.data.user.name);
+                alert("Register Successfully!");
                 window.location.href = "index.html";
             },
             error: function (error) {

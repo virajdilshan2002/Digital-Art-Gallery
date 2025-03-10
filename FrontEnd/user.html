@@ -45,12 +45,59 @@
                         <div class="shadow-lg mb-3">
                             <button class="btn btn-primary px-4" type="button">Search Art</button>
                         </div>
+
+                    </div>
+                    <div class="mb-3">
+                        <button class="shadow-lg btn btn-success px-4 rounded-5" type="button">+ Post Your Art</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </header>
+
+
+<section class="bg-light py-5">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-4">Explore Our Collections</h2>
+        <p class="text-muted mb-5">Dive into a wide range of digital and hand-painted art curated just for you.</p>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img src="assets/img/arts/1.jpg" class="card-img-top" alt="Art 1" style="width: 100%; height: 250px; object-fit: cover;"
+                    >
+                    <div class="card-body">
+                        <h5 class="card-title">Abstract Painting</h5>
+                        <p class="card-text">Explore the beauty of abstract art with vibrant colors and textures.</p>
+                        <a href="" class="btn btn-primary">View More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img src="assets/img/arts/2.jpg" class="card-img-top" alt="Art 2" style="width: 100%; height: 250px; object-fit: cover;"
+                    >
+                    <div class="card-body">
+                        <h5 class="card-title">Digital Landscape</h5>
+                        <p class="card-text">Discover breathtaking digital landscapes perfect for any collection.</p>
+                        <a href="" class="btn btn-primary">View More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img src="assets/img/arts/3.jpg" class="card-img-top" alt="Art 3" style="width: 100%; height: 250px; object-fit: cover;"
+                    >
+                    <div class="card-body">
+                        <h5 class="card-title">Modern Art</h5>
+                        <p class="card-text">Experience the unique style of modern art with bold ideas and designs.</p>
+                        <a href="" class="btn btn-primary">View More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <script src="framework/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="framework/jquery/jquery-3.7.1.min.js"></script>
@@ -67,7 +114,6 @@
             const token = localStorage.getItem('token')
             if (token === null) {
                 window.location.href = 'index.html';
-                alert("Session expired, please login again!")
             } else {
                 //get user profile
                 $.ajax({
