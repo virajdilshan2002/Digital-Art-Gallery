@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Page Not Found - Brand</title>
+    <link rel="stylesheet" href="framework/bootstrap/bootstrap.min.css">
+</head>
+<body class="w-100 h-100"><!-- Start: Navbar Centered Links -->
+
+<section class="h-100 w-100 container">
+    <div class="container text-center">
+        <img class="img-fluid w-50" alt="Server Error" src="assets/img/illustrations/404.svg">
+        <h2 class="display-3 fw-bold mb-3">Server Error</h2>
+        <p class="fs-4 text-muted">Unfortunately, something went wrong on our end. Please try again later.</p>
+        <button id="tryAgainBtn" class="btn btn-primary mt-3">Try Again</button>
+    </div>
+</section>
+
+<script src="framework/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="framework/jquery/jquery-3.7.1.min.js"></script>
+<script>
+    $("#tryAgainBtn").click(function () {
+        window.location.href = "index.html";
+    });
+</script>
+</body>
+</html>

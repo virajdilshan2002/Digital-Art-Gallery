@@ -132,12 +132,16 @@
                             window.location.href = 'user.html';
                         }
                     },
-                    error: function (error) {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            text: "Session Expired. Please Login Again!",
-                        });
+                    error: function (xhr, status, error) {
+                        if (xhr.status === 0) {
+                            window.location.href = "404.html";
+                        }else if (error) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Session Expired. Please Login Again!",
+                            });
+                        }
                     }
                 })
             }

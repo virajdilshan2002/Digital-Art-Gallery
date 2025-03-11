@@ -8,5 +8,5 @@ public interface UserService {
     UserDTO getUserByToken(String token);
 
     UserDTO searchUser(String username);
-    public String getUserRoleByToken(String token);
+    String getUserRoleByToken(String token);
 }
