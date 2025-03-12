@@ -31,15 +31,9 @@ public class UserController {
     @GetMapping(path = "/retrieve")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<ResponseDTO> verifyUser(@RequestHeader("Authorization") String authorization) {
-        try {
-            String role = userService.getUserRoleByToken(authorization.substring(7));
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseDTO(VarList.OK, "retrieved success", role));
-        } catch (Exception e) {
-            log.error("Token processing error: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ResponseDTO(VarList.Unauthorized, "Token validation failed", null));
-        }
+        String role = userService.getUserRoleByToken(authorization.substring(7));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "retrieved success", role));
     }
 
     @GetMapping(path = "/profile")

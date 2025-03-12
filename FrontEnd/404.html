@@ -12,16 +12,37 @@
     <div class="container text-center">
         <img class="img-fluid w-50" alt="Server Error" src="assets/img/illustrations/404.svg">
         <h2 class="display-3 fw-bold mb-3">Server Error</h2>
-        <p class="fs-4 text-muted">Unfortunately, something went wrong on our end. Please try again later.</p>
+        <p class="fs-4 text-muted">Unfortunately, Server might be down or unreachable.<br> Please try again later.</p>
         <button id="tryAgainBtn" class="btn btn-primary mt-3">Try Again</button>
     </div>
 </section>
 
 <script src="framework/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="framework/jquery/jquery-3.7.1.min.js"></script>
+<script src="framework/sweetalert2/sweetalert2@11.js"></script>
 <script>
     $("#tryAgainBtn").click(function () {
-        window.location.href = "index.html";
+
+        $.ajax({
+            url: "http://localhost:8080/api/v1/server/status", // Replace with your server's test endpoint
+            method: "GET",
+            success: function (response) {
+                if (response.code === 200){
+                    window.location.href = 'index.html';
+                }
+            },
+            error: function (xhr) {
+                if (xhr.status === 0) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Cannot reach the server. Please try again later.",
+                    });
+                }
+            }
+        });
+
+
     });
 </script>
 </body>

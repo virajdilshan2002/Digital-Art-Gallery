@@ -8,5 +8,6 @@ public interface UserService {
     UserDTO getUserByToken(String token);
 
     UserDTO searchUser(String username);
+
     String getUserRoleByToken(String token);
 }

@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     public UserDTO loadUserDetailsByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
-        return modelMapper.map(user,UserDTO.class);
+        return modelMapper.map(user, UserDTO.class);
     }
 
     private Set<SimpleGrantedAuthority> getAuthority(User user) {
@@ -50,7 +50,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public String getUserRoleByToken(String token) {
-        return jwtUtil.getRoleFromToken(token);
+        String username = jwtUtil.getUsernameFromToken(token);
+        User user = userRepository.findByEmail(username);
+        return user.getRole();
+
     }
 
     @Override
@@ -79,4 +82,5 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             userRepository.save(modelMapper.map(userDTO, User.class));
             return VarList.Created;
         }
-    }}
+    }
+}

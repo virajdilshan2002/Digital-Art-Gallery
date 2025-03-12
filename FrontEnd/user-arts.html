@@ -3,25 +3,37 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Products - Brand</title>
+    <title>Arts</title>
     <link rel="stylesheet" href="framework/bootstrap/bootstrap.min.css">
 </head>
 <body><!-- Start: Navbar Centered Links -->
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3 bg-light shadow" id="mainNav">
     <div class="container">
+        <img id="siteLogo" src="assets/img/illustrations/quill-pen.svg" alt="User Logo" class="rounded-circle object-fit-cover me-2" style="width: 40px; height: 40px;">
+
         <a class="navbar-brand d-flex align-items-center"
            href="user.html"><span>Digital Art Gallery</span></a>
         <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link" href="admin.html">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="arts.html">Arts</a></li>
+                <li class="nav-item"><a class="nav-link" href="user.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="user-arts.html">Arts</a></li>
                 <li class="nav-item"><a class="nav-link" href="">Contact Us</a></li>
                 <li class="nav-item"><a class="nav-link" href="">FAQ</a></li>
             </ul>
         </div>
-        <button id="logOutBtn" class="btn btn-danger shadow rounded-5 px-4" type="button">Log out</button>
+        <div class="dropdown">
+            <div class="d-flex align-items-center profile-dropdown" data-bs-toggle="dropdown" style="cursor: pointer;">
+                <img id="profileLogo" src="assets/img/illustrations/user.svg" alt="User Logo" class="rounded-circle object-fit-cover me-2" style="width: 40px; height: 40px;">
+                <span id="profileName" class="fw-bold"></span>
+            </div>
+            <ul class="text-center dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="profile.html">View Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><button id="logOutBtn" class="dropdown-item text-danger">Log out</button></li>
+            </ul>
+        </div>
     </div>
 </nav>
 <section class="py-5"><!-- Start: Team -->
@@ -45,6 +57,7 @@
                             <div>ON SALE</div>
                             <h5>Piggy Bank</h5>
                             <p>Veritatis laboriosam sed autem.</p>
+                            <p class="text-muted">Posted By: <a href="owner-profile.html">John Doe</a></p>
                         </div>
                         <strong><!--<s>$100.00</s>-->$13.43</strong>
                     </div>
@@ -62,6 +75,7 @@
                             <div>ON SALE</div>
                             <h5>Piggy Bank</h5>
                             <p>Veritatis laboriosam sed autem.</p>
+                            <p class="text-muted">Posted By: <a href="owner-profile.html">John Doe</a></p>
                         </div>
                         <strong><!--<s>$100.00</s>-->$13.43</strong>
                     </div>
@@ -79,6 +93,7 @@
                             <div>ON SALE</div>
                             <h5>Piggy Bank</h5>
                             <p>Veritatis laboriosam sed autem.</p>
+                            <p class="text-muted">Posted By: <a href="owner-profile.html">John Doe</a></p>
                         </div>
                         <strong><!--<s>$100.00</s>-->$13.43</strong>
                     </div>
@@ -96,6 +111,7 @@
                             <div>ON SALE</div>
                             <h5>Piggy Bank</h5>
                             <p>Veritatis laboriosam sed autem.</p>
+                            <p class="text-muted">Posted By: <a href="owner-profile.html">John Doe</a></p>
                         </div>
                         <strong><!--<s>$100.00</s>-->$13.43</strong>
                     </div>
@@ -113,6 +129,7 @@
                             <div>ON SALE</div>
                             <h5>Piggy Bank</h5>
                             <p>Veritatis laboriosam sed autem.</p>
+                            <p class="text-muted">Posted By: <a href="owner-profile.html">John Doe</a></p>
                         </div>
                         <strong><!--<s>$100.00</s>-->$13.43</strong>
                     </div>
@@ -130,6 +147,7 @@
                             <div>ON SALE</div>
                             <h5>Piggy Bank</h5>
                             <p>Veritatis laboriosam sed autem.</p>
+                            <p class="text-muted">Posted By: <a href="owner-profile.html">John Doe</a></p>
                         </div>
                         <strong><!--<s>$100.00</s>-->$13.43</strong>
                     </div>
@@ -145,5 +163,17 @@
 </section>
 <script src="framework/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="framework/jquery/jquery-3.7.1.min.js"></script>
+<script src="js/util.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#logOutBtn').click(function () {
+            localStorage.removeItem('token');
+            window.location.href = 'index.html';
+        });
+
+        loadProfile("user");
+    });
+</script>
 </body>
 </html>
