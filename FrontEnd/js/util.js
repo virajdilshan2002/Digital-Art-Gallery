@@ -1,5 +1,9 @@
-$(document).ready(function(){
+$(document).ajaxStart(function () {
+    $("#loading").fadeIn();
+}).ajaxStop(function () {
+    $("#loading").fadeOut();
 })
+
 
 function loadProfile(role) {
     //check if token is present

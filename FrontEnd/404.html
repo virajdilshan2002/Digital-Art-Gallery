@@ -13,21 +13,33 @@
         <img class="img-fluid w-50" alt="Server Error" src="assets/img/illustrations/404.svg">
         <h2 class="display-3 fw-bold mb-3">Server Error</h2>
         <p class="fs-4 text-muted">Unfortunately, Server might be down or unreachable.<br> Please try again later.</p>
-        <button id="tryAgainBtn" class="btn btn-primary mt-3">Try Again</button>
+        <button id="tryAgainBtn" class="btn btn-primary rounded-4 px-4 mt-3">Try Again</button>
+        <!-- Loading Screen -->
+        <div id="loading" class="position-fixed top-0 start-0 w-100 h-100"
+             style="display: none; z-index: 1050; background-color: rgba(255,255,255,0.5)">
+            <div class="py-4 w-100 bg-white shadow d-flex justify-content-center align-items-center column-gap-2 position-absolute top-50 start-50 translate-middle">
+                <div class="spinner-border text-dark " role="status"></div>
+                <span class="text-dark fs-6">Loading...</span>
+            </div>
+        </div>
+
+
     </div>
 </section>
 
 <script src="framework/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="framework/jquery/jquery-3.7.1.min.js"></script>
 <script src="framework/sweetalert2/sweetalert2@11.js"></script>
+<script src="js/util.js"></script>
 <script>
+
     $("#tryAgainBtn").click(function () {
 
         $.ajax({
-            url: "http://localhost:8080/api/v1/server/status", // Replace with your server's test endpoint
+            url: "http://localhost:8080/api/v1/server/status",
             method: "GET",
             success: function (response) {
-                if (response.code === 200){
+                if (response.code === 200) {
                     window.location.href = 'index.html';
                 }
             },
@@ -42,8 +54,8 @@
             }
         });
 
-
     });
+
 </script>
 </body>
 </html>
