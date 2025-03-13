@@ -1,5 +1,6 @@
 package lk.viraj.backend.controller;
 
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.validation.Valid;
 import lk.viraj.backend.dto.AuthDTO;
 import lk.viraj.backend.dto.ResponseDTO;
@@ -32,16 +33,14 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<ResponseDTO> verifyUser(@RequestHeader("Authorization") String authorization) {
         String role = userService.getUserRoleByToken(authorization.substring(7));
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDTO(VarList.OK, "retrieved success", role));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(VarList.OK, "retrieved success", role));
     }
 
     @GetMapping(path = "/profile")
     @PreAuthorize("hasAnyAuthority('USER')")
     public ResponseEntity<ResponseDTO> getProfile(@RequestHeader("Authorization") String authorization) {
         UserDTO userByToken = userService.getUserByToken(authorization.substring(7));
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDTO(VarList.OK, "profile data retrieved success", userByToken));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(VarList.OK, "profile data retrieved success", userByToken));
     }
 
     @PostMapping("/register")
@@ -54,21 +53,17 @@ public class UserController {
                     AuthDTO authDTO = new AuthDTO();
                     authDTO.setUser(userDTO);
                     authDTO.setToken(token);
-                    return ResponseEntity.status(HttpStatus.CREATED)
-                            .body(new ResponseDTO(VarList.Created, "Success", authDTO));
+                    return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(VarList.Created, "Success", authDTO));
                 }
                 case VarList.Not_Acceptable -> {
-                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
-                            .body(new ResponseDTO(VarList.Not_Acceptable, "Email Already Used", null));
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new ResponseDTO(VarList.Not_Acceptable, "Email Already Used", null));
                 }
                 default -> {
-                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                            .body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
+                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
                 }
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
     }
 

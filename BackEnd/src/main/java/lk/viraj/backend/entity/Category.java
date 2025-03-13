@@ -10,14 +10,14 @@ public class Category {
     @Id
     private String name;
     @OneToMany(mappedBy = "category")
-    private List<Art> arts;
+    private List<Item> items;
 
     public Category() {
     }
 
-    public Category(String name, List<Art> arts) {
+    public Category(String name, List<Item> items) {
         this.name = name;
-        this.arts = arts;
+        this.items = items;
     }
 
     public String getName() {
@@ -28,12 +28,11 @@ public class Category {
         this.name = name;
     }
 
-    public List<Art> getArts() {
-        return arts;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setArts(List<Art> arts) {
-        this.arts = arts;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
-
 }

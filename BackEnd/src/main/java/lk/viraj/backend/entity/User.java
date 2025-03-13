@@ -1,9 +1,6 @@
 package lk.viraj.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -27,7 +24,7 @@ public class User implements Serializable {
     private String role;
 
     @OneToMany(mappedBy = "user")
-    private List<Art> arts;
+    private List<Item> items;
 
     public User() {
     }
@@ -107,11 +104,11 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public List<Art> getArts() {
-        return arts;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setArts(List<Art> arts) {
-        this.arts = arts;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }

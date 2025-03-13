@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Table(name = "art")
-public class Art {
+@Table(name = "item")
+public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uid;
@@ -20,10 +20,10 @@ public class Art {
     @ManyToOne
     private User user;
 
-    public Art() {
+    public Item() {
     }
 
-    public Art(UUID uid, String name, String desc, String imagePath, BigDecimal price, Category category, User user) {
+    public Item(UUID uid, String name, String desc, String imagePath, BigDecimal price, Category category, User user) {
         this.uid = uid;
         this.name = name;
         this.description = desc;

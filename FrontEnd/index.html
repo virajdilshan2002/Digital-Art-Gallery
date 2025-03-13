@@ -15,7 +15,8 @@
 <body>
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3 bg-light shadow" id="mainNav">
     <div class="container">
-        <img id="siteLogo" src="assets/img/illustrations/quill-pen.svg" alt="User Logo" class="rounded-circle object-fit-cover me-2" style="width: 40px; height: 40px;">
+        <img id="siteLogo" src="assets/img/illustrations/quill-pen.svg" alt="User Logo"
+             class="rounded-circle object-fit-cover me-2" style="width: 40px; height: 40px;">
 
         <a class="navbar-brand d-flex align-items-center"
            href="index.html"><span>Digital Art Gallery</span></a>
@@ -40,12 +41,12 @@
                     Art&nbsp;<br><span>And Sell It</span>.</h1>
                     <p class="fs-5 text-muted mb-5">Sell your digital art or, hand painted art.</p>
                     <div class="d-flex justify-content-center flex-wrap column-gap-2"
-                          data-bs-theme="light">
+                         data-bs-theme="light">
                         <div class="shadow-lg mb-3">
                             <input class="form-control" type="email" name="email"
                                    placeholder="Your Email"></div>
                         <div class="shadow-lg mb-3">
-                            <a class="btn btn-primary px-4" href="register.html">Sign up</a>
+                            <a class="btn btn-primary px-4" href="register.html">Register</a>
                         </div>
                     </div>
                 </div>
@@ -143,20 +144,13 @@
                     success: function (res) {
                         if (res.data === 'ADMIN') {
                             window.location.href = "admin.html";
-                        }else {
+                        } else {
                             window.location.href = 'user.html';
                         }
                     },
                     error: function (xhr, error) {
-                        if (xhr.status === 0) {
-                            window.location.href = "404.html";
-                        }else if (error) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Oops...",
-                                text: "Session Expired. Please Login Again!",
-                            });
-                        }
+                        localStorage.removeItem('token');
+                        window.location.href = "404.html";
                     }
                 })
             }
