@@ -17,17 +17,13 @@ $(document).ready(function () {
                 localStorage.setItem("token", response.data.token);
 
                 if (response.data.user.role === "ADMIN") {
-                    window.location.href = "admin.html";
+                    showAlertThenRedirect("success","Success","Login Successful!", "admin.html")
                 }else {
-                    window.location.href = "user.html";
+                    showAlertThenRedirect("success","Success","Login Successful!", "user.html")
                 }
             },
             error: function (error) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Invalid Email Or Password!",
-                });
+                showAlert("error","Oops...","Invalid Email or Password!")
             },
         });
     });

@@ -63,10 +63,10 @@
 <main>
     <!-- Loading Screen -->
     <div id="loading" class="position-fixed top-0 start-0 w-100 h-100"
-         style="display: none; z-index: 1050; background-color: rgba(255,255,255,0.5)">
-        <div class="py-4 w-100 bg-white shadow d-flex justify-content-center align-items-center column-gap-2 position-absolute top-50 start-50 translate-middle">
-            <div class="spinner-border text-dark " role="status"></div>
-            <span class="text-dark fs-6">Loading...</span>
+         style="display: none; z-index: 1050; background-color: rgba(0,0,0,0.8)">
+        <div class="py-4 w-100 text-white d-flex justify-content-center align-items-center column-gap-2 position-absolute top-50 start-50 translate-middle">
+            <div class="spinner-border" role="status"></div>
+            <span class="fs-6">Loading...</span>
         </div>
     </div>
 </main>
@@ -149,8 +149,25 @@
                         }
                     },
                     error: function (xhr, error) {
-                        localStorage.removeItem('token');
-                        window.location.href = "404.html";
+                        if (xhr.status === 0) {
+                            if (xhr.readyState === 0) {
+                                // Server is down (Connection refused)
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Server Down",
+                                    text: "Cannot connect to the server!",
+                                }).then(() => {
+                                    window.location.href = "404.html";
+                                })
+                            } else {
+                                // Request Blocked (CORS, Firewall, Network issue)
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Request Blocked",
+                                    text: "The request was blocked. Check CORS settings or firewall rules.",
+                                });
+                            }
+                        }
                     }
                 })
             }

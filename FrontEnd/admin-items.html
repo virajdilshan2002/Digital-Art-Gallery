@@ -1,15 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-bs-theme="light" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin | Dashboard</title>
-    <meta name="description" content="Admin Dashboard">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Admin | Arts</title>
     <link rel="stylesheet" href="framework/bootstrap/bootstrap.min.css">
-    <style>
-        body::-webkit-scrollbar {
-            display: none;
-        }
-    </style>
 </head>
 <body>
 <!-- Loading Screen -->
@@ -21,6 +16,7 @@
     </div>
 </div>
 
+<!-- Start: Navbar Centered Links -->
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3 bg-light shadow" id="mainNav">
     <div class="container">
         <img id="siteLogo" src="assets/img/illustrations/quill-pen.svg" alt="User Logo"
@@ -31,57 +27,47 @@
         <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1">
-
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item"><a class="nav-link" href="admin.html">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="admin-items.html">Arts</a></li>
                 <li class="nav-item"><a class="nav-link" href="">Contact Us</a></li>
                 <li class="nav-item"><a class="nav-link" href="">FAQ</a></li>
             </ul>
-            <div class="dropdown">
-                <div class="d-flex align-items-center profile-dropdown" data-bs-toggle="dropdown"
-                     style="cursor: pointer;">
-                    <img id="profileLogo" src="assets/img/illustrations/user.svg" alt="Admin Logo"
-                         class="rounded-circle object-fit-cover me-2" style="width: 40px; height: 40px;">
-                    <span id="profileName" class="fw-bold"></span>
-                </div>
-                <ul class="text-center dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="profile.html">View Profile</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li>
-                        <button id="logOutBtn" class="dropdown-item text-danger">Log out</button>
-                    </li>
-                </ul>
+        </div>
+        <div class="dropdown">
+            <div class="d-flex align-items-center profile-dropdown" data-bs-toggle="dropdown" style="cursor: pointer;">
+                <img id="profileLogo" src="assets/img/illustrations/user.svg" alt="User Logo"
+                     class="rounded-circle object-fit-cover me-2" style="width: 40px; height: 40px;">
+                <span id="profileName" class="fw-bold"></span>
             </div>
+            <ul class="text-center dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="profile.html">View Profile</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li>
+                    <button id="logOutBtn" class="dropdown-item text-danger">Log out</button>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
-
-<header class="pt-5">
-    <div class="container pt-4 pt-xl-5">
-        <div class="row pt-5">
-            <div class="col-md-8 text-center text-md-start mx-auto">
-                <div class="text-center"><h1 class="display-4 fw-bold mb-5">Welcome To Digital
-                    Art&nbsp;<br><span id="userName"></span>!</h1>
-                    <p class="fs-5 text-muted mb-5">Sell your digital art or, hand painted art.</p>
-                    <div class="d-flex justify-content-center flex-wrap column-gap-2"
-                         data-bs-theme="light">
-                        <div class="shadow-lg mb-3">
-                            <input class="form-control" type="text" name="search"
-                                   placeholder="Art"></div>
-                        <div class="shadow-lg mb-3">
-                            <button class="btn btn-primary px-4" type="button">Search Art</button>
-                        </div>
-
-                    </div>
-                    <!--post art modal trigger btn-->
-                    <div class="mb-3">
-                        <button class="shadow-lg btn btn-success px-4 rounded-5" type="button"
-                                data-bs-toggle="modal" data-bs-target="#artPostModal">+ Post An Art
-                        </button>
-                    </div>
+<section class="py-5"><!-- Start: Team -->
+    <div class="container py-5 ">
+        <div class="row mb-4 mb-lg-5">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h2 class="fw-bold">Arts</h2>
+                <p class="text-muted">No matter the project, our team can handle it.&nbsp;</p>
+                <!--buttons container-->
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-outline-success fw-bold shadow rounded-5 px-4" type="button" data-bs-toggle="modal" data-bs-target="#artPostModal">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Post Item
+                    </button>
                     <!-- Post Art Modal -->
                     <div class="modal fade" id="artPostModal" tabindex="-1" aria-labelledby="artPostModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -138,65 +124,105 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-    </div>
-</header>
+        <!--all art list column-->
+        <div class="row mx-auto col">
+            <!--art row-->
+            <div class="row row-gap-4">
+                <!--Card-->
+                <div class="bg-light" style="width: calc(100% / 4); max-height: 400px;">
+                    <div class="h-50">
+                        <img class="w-100 h-100 object-fit-cover" loading="lazy" src="assets/img/items/2.jpg"
+                             alt="Art"/>
+                    </div>
+                    <div>
+                        <div>
+                            <div>ON SALE</div>
+                            <h5>Piggy Bank</h5>
+                            <p>Veritatis laboriosam sed autem.</p>
+                            <p class="text-muted">Posted By: <a href="owner-profile.html">John Doe</a></p>
+                        </div>
+                        <strong><!--<s>$100.00</s>-->$13.43</strong>
+                    </div>
+                    <div class="mt-2">
+                        <button class="btn btn-dark shadow rounded-5 px-4" type="button">View Art</button>
+                        <button class="btn btn-danger shadow rounded-5 px-4" type="button">Delete Art</button>
+                    </div>
+                </div>
 
+                <!--Card-->
+                <div class="bg-light" style="width: calc(100% / 4); max-height: 400px;">
+                    <div class="h-50">
+                        <img class="w-100 h-100 object-fit-cover" loading="lazy" src="assets/img/items/2.jpg"
+                             alt="Art"/>
+                    </div>
+                    <div>
+                        <div>
+                            <div>ON SALE</div>
+                            <h5>Piggy Bank</h5>
+                            <p>Veritatis laboriosam sed autem.</p>
+                            <p class="text-muted">Posted By: <a href="owner-profile.html">John Doe</a></p>
+                        </div>
+                        <strong><!--<s>$100.00</s>-->$13.43</strong>
+                    </div>
+                    <div class="mt-2">
+                        <button class="btn btn-dark shadow rounded-5 px-4" type="button">View Art</button>
+                        <button class="btn btn-danger shadow rounded-5 px-4" type="button">Delete Art</button>
+                    </div>
+                </div>
 
-<section class="bg-light py-5">
-    <div class="container text-center">
-        <h2 class="fw-bold mb-4">Explore Our Collections</h2>
-        <p class="text-muted mb-5">Dive into a wide range of digital and hand-painted art curated just for you.</p>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="assets/img/items/1.jpg" class="card-img-top" alt="Art 1"
-                         style="width: 100%; height: 250px; object-fit: cover;"
-                    >
-                    <div class="card-body">
-                        <h5 class="card-title">Abstract Painting</h5>
-                        <p class="card-text">Explore the beauty of abstract art with vibrant colors and textures.</p>
-                        <a href="" class="btn btn-primary">View More</a>
+                <!--Card-->
+                <div class="bg-light" style="width: calc(100% / 4); max-height: 400px;">
+                    <div class="h-50">
+                        <img class="w-100 h-100 object-fit-cover" loading="lazy" src="assets/img/items/2.jpg"
+                             alt="Art"/>
+                    </div>
+                    <div>
+                        <div>
+                            <div>ON SALE</div>
+                            <h5>Piggy Bank</h5>
+                            <p>Veritatis laboriosam sed autem.</p>
+                            <p class="text-muted">Posted By: <a href="owner-profile.html">John Doe</a></p>
+                        </div>
+                        <strong><!--<s>$100.00</s>-->$13.43</strong>
+                    </div>
+                    <div class="mt-2">
+                        <button class="btn btn-dark shadow rounded-5 px-4" type="button">View Art</button>
+                        <button class="btn btn-danger shadow rounded-5 px-4" type="button">Delete Art</button>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="assets/img/items/2.jpg" class="card-img-top" alt="Art 2"
-                         style="width: 100%; height: 250px; object-fit: cover;"
-                    >
-                    <div class="card-body">
-                        <h5 class="card-title">Digital Landscape</h5>
-                        <p class="card-text">Discover breathtaking digital landscapes perfect for any collection.</p>
-                        <a href="" class="btn btn-primary">View More</a>
+
+                <!--Card-->
+                <div class="bg-light" style="width: calc(100% / 4); max-height: 400px;">
+                    <div class="h-50">
+                        <img class="w-100 h-100 object-fit-cover" loading="lazy" src="assets/img/items/2.jpg"
+                             alt="Art"/>
+                    </div>
+                    <div>
+                        <div>
+                            <div>ON SALE</div>
+                            <h5>Piggy Bank</h5>
+                            <p>Veritatis laboriosam sed autem.</p>
+                            <p class="text-muted">Posted By: <a href="owner-profile.html">John Doe</a></p>
+                        </div>
+                        <strong><!--<s>$100.00</s>-->$13.43</strong>
+                    </div>
+                    <div class="mt-2">
+                        <button class="btn btn-dark shadow rounded-5 px-4" type="button">View Art</button>
+                        <button class="btn btn-danger shadow rounded-5 px-4" type="button">Delete Art</button>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="assets/img/items/3.jpg" class="card-img-top" alt="Art 3"
-                         style="width: 100%; height: 250px; object-fit: cover;"
-                    >
-                    <div class="card-body">
-                        <h5 class="card-title">Modern Art</h5>
-                        <p class="card-text">Experience the unique style of modern art with bold ideas and designs.</p>
-                        <a href="" class="btn btn-primary">View More</a>
-                    </div>
-                </div>
+
             </div>
         </div>
-    </div>
+    </div><!-- End: Team -->
 </section>
-
 <script src="framework/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="framework/jquery/jquery-3.7.1.min.js"></script>
 <script src="framework/sweetalert2/sweetalert2@11.js"></script>
-
 <script src="js/util.js"></script>
 <script src="js/admin.js"></script>
-
 </body>
 </html>

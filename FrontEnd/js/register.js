@@ -49,7 +49,11 @@ $(document).ready(function () {
                             window.location.href = "index.html";
                         });
                     },
-                    error: function (error) {
+                    error: function (xhr, error) {
+                        if (xhr){
+                            checkXHR(xhr)
+                            return;
+                        }
                         let data = error.responseJSON.data;
                         if (data.name != null){
                             errorAlert(data.name)
@@ -71,10 +75,6 @@ $(document).ready(function () {
     });
 
     function errorAlert(message){
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: message,
-        });
+        showAlert("error","Oops...",message)
     }
 })
