@@ -1,11 +1,11 @@
 package lk.viraj.backend.controller;
 
 import lk.viraj.backend.dto.ResponseDTO;
+import lk.viraj.backend.dto.other.ItemFormDataDTO;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.annotation.MultipartConfig;
 
 @RestController
@@ -18,9 +18,11 @@ public class ItemController {
 
     @PostMapping(path = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity<ResponseDTO> save(@RequestHeader("Authorization") String authorization, @RequestPart("artName") String name, @RequestPart("artPhoto") MultipartFile file, @RequestPart("artDescription") String description, @RequestPart("artPrice") String price, @RequestPart("artQty") String qty) {
+    public ResponseEntity<ResponseDTO> save(@RequestHeader("Authorization") String authorizationg,
+                                            @ModelAttribute() ItemFormDataDTO requestDTO) {
 
-        System.out.println(file.getOriginalFilename());
+        //Access data in form
+        System.out.println(requestDTO);
 
         return ResponseEntity.ok(new ResponseDTO(200, "Data received successfully", null));
     }

@@ -1,32 +1,26 @@
-package lk.viraj.backend.entity;
+package lk.viraj.backend.dto;
 
-import jakarta.persistence.*;
-
+import lk.viraj.backend.entity.Category;
+import lk.viraj.backend.entity.User;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Entity
-@Table(name = "item")
-public class Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+public class ItemDTO {
     private UUID uid;
     private String name;
     private String description;
     private String image;
     private BigDecimal price;
-    @ManyToOne
     private Category category;
-    @ManyToOne
     private User user;
 
-    public Item() {
+    public ItemDTO() {
     }
 
-    public Item(UUID uid, String name, String desc, String image, BigDecimal price, Category category, User user) {
+    public ItemDTO(UUID uid, String name, String description, String image, BigDecimal price, Category category, User user) {
         this.uid = uid;
         this.name = name;
-        this.description = desc;
+        this.description = description;
         this.image = image;
         this.price = price;
         this.category = category;
@@ -47,6 +41,14 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getImage() {
@@ -79,13 +81,5 @@ public class Item {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

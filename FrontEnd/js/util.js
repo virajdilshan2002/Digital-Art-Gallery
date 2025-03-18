@@ -80,7 +80,8 @@ function checkXHR(xhr) {
                 title: "Request Blocked!",
                 text: "The request was blocked. Try logging again!.",
             }).then(() => {
-                localStorage.removeItem('token');
+                window.location.href = "index.html";
+                // localStorage.removeItem('token');
             })
         }
     }
