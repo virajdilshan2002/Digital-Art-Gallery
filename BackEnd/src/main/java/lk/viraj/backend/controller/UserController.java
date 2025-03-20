@@ -31,7 +31,7 @@ public class UserController {
 
     @GetMapping(path = "/retrieve")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity<ResponseDTO> verifyUser(@RequestHeader("Authorization") String authorization) {
+    public ResponseEntity<ResponseDTO> retrieveUser(@RequestHeader("Authorization") String authorization) {
         String role = userService.getUserRoleByToken(authorization.substring(7));
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(VarList.OK, "retrieved success", role));
     }

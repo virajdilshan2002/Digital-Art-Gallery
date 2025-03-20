@@ -39,8 +39,7 @@ public class GlobalExceptionHandler {
                 "The uploaded file exceeds the maximum allowed size",
                 null
         );
-
-        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(responseDTO);
+        return new ResponseEntity<>(responseDTO, HttpStatus.EXPECTATION_FAILED);
     }
 
 }

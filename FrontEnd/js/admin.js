@@ -46,8 +46,13 @@ $('#postArtBtn').click(function () {
                 $('#artPostModal').modal('hide');
             });
         },
+
         error: function (xhr, status, error) {
-            console.log(error)
+            Swal.fire({
+                icon: "warning",
+                title: "File Size!",
+                text: "File size should be below 1MB.",
+            })
         }
     });
 });

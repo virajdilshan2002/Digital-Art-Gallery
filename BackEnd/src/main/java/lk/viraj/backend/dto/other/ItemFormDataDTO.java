@@ -8,16 +8,18 @@ public class ItemFormDataDTO {
     private String name;
     private MultipartFile image;
     private String description;
+    private String categoryId;
     private double price;
     private int qty;
 
     public ItemFormDataDTO() {
     }
 
-    public ItemFormDataDTO(String name, MultipartFile image, String description, double price, int qty) {
+    public ItemFormDataDTO(String name, MultipartFile image, String description, String categoryId, double price, int qty) {
         this.name = name;
         this.image = image;
         this.description = description;
+        this.categoryId = categoryId;
         this.price = price;
         this.qty = qty;
     }
@@ -60,6 +62,14 @@ public class ItemFormDataDTO {
 
     public void setQty(int qty) {
         this.qty = qty;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     @Override
