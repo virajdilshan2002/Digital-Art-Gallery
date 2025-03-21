@@ -19,6 +19,6 @@ public class CategoryController {
     @PostMapping("/save")
     public ResponseEntity<ResponseDTO> saveCategory(@RequestBody CategoryDTO categoryDTO) {
         int status = categoryService.saveCategory(categoryDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(VarList.Created, "Category Saved!", categoryDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(VarList.Created, "Category Saved!", status));
     }
 }

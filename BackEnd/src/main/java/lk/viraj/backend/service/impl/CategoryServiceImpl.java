@@ -25,4 +25,10 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.save(category);
         return VarList.Created;
     }
+
+    @Override
+    public CategoryDTO searchCategory(String id) {
+        Category category = categoryRepository.getReferenceById(id);
+        return modelMapper.map(category, CategoryDTO.class);
+    }
 }

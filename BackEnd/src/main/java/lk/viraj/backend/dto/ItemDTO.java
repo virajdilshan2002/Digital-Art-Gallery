@@ -1,7 +1,5 @@
 package lk.viraj.backend.dto;
 
-import lk.viraj.backend.entity.Category;
-import lk.viraj.backend.entity.User;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -11,13 +9,13 @@ public class ItemDTO {
     private String description;
     private String image;
     private BigDecimal price;
-    private Category category;
-    private User user;
+    private CategoryDTO category;
+    private UserDTO user;
 
     public ItemDTO() {
     }
 
-    public ItemDTO(UUID uid, String name, String description, String image, BigDecimal price, Category category, User user) {
+    public ItemDTO(UUID uid, String name, String description, String image, BigDecimal price, CategoryDTO category, UserDTO user) {
         this.uid = uid;
         this.name = name;
         this.description = description;
@@ -67,19 +65,19 @@ public class ItemDTO {
         this.price = price;
     }
 
-    public Category getCategory() {
+    public CategoryDTO getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryDTO category) {
         this.category = category;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 }

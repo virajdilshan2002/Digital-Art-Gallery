@@ -3,11 +3,15 @@ package lk.viraj.backend.entity;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "category")
 public class Category {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID uid;
+    @Column(unique = true)
     private String name;
     @OneToMany(mappedBy = "category")
     private List<Item> items;
@@ -38,5 +42,13 @@ public class Category {
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    public UUID getUid() {
+        return uid;
+    }
+
+    public void setUid(UUID uid) {
+        this.uid = uid;
     }
 }

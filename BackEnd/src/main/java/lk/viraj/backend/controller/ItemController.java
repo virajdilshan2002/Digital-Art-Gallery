@@ -1,8 +1,11 @@
 package lk.viraj.backend.controller;
 
+import lk.viraj.backend.dto.CategoryDTO;
+import lk.viraj.backend.dto.ItemDTO;
 import lk.viraj.backend.dto.ResponseDTO;
 import lk.viraj.backend.dto.UserDTO;
 import lk.viraj.backend.dto.other.ItemFormDataDTO;
+import lk.viraj.backend.service.CategoryService;
 import lk.viraj.backend.service.FileStorageService;
 import lk.viraj.backend.service.ItemService;
 import lk.viraj.backend.service.UserService;
@@ -29,14 +32,18 @@ public class ItemController {
     private final ItemService itemService;
 
     @Autowired
+    private final CategoryService categoryService;
+
+    @Autowired
     private final UserService userService;
 
     @Autowired
     private final FileStorageService fileStorageService;
 
-    public ItemController(JwtUtil jwtUtil, ItemService itemService, UserService userService, FileStorageService fileStorageService) {
+    public ItemController(JwtUtil jwtUtil, ItemService itemService, CategoryService categoryService, UserService userService, FileStorageService fileStorageService) {
         this.jwtUtil = jwtUtil;
         this.itemService = itemService;
+        this.categoryService = categoryService;
         this.userService = userService;
         this.fileStorageService = fileStorageService;
     }
@@ -46,15 +53,34 @@ public class ItemController {
     public ResponseEntity<ResponseDTO> save(@RequestHeader("Authorization") String authorizationg,
                                             @ModelAttribute() ItemFormDataDTO itemFormDataDTO) {
 
+        System.out.println(itemFormDataDTO);
+
         //get username in token
         String username = jwtUtil.getUsernameFromToken(authorizationg.substring(7));
+
         //get userDTO using username
         UserDTO userDTO = userService.searchUser(username);
+        System.out.println(userDTO.getName());
+
+        //get category using category name
+        CategoryDTO categoryDTO = categoryService.searchCategory(itemFormDataDTO.getCategoryId());
+        System.out.println(categoryDTO.getName());
 
         //save image on DIRECTORY
         String path = fileStorageService.saveItemImage(itemFormDataDTO.getImage());
 
+        /*ItemDTO itemDTO = new ItemDTO();
+        itemDTO.setName(itemFormDataDTO.getName());
+        itemDTO.setDescription(itemFormDataDTO.getDescription());
+        itemDTO.setImage(path);
+        itemDTO.setPrice(itemFormDataDTO.getPrice());
+        itemDTO.setCategory(categoryDTO);
+        itemDTO.setUser(userDTO);
 
-        return ResponseEntity.ok(new ResponseDTO(200, "Data received successfully", path));
+        System.out.println(itemDTO.getImage());
+
+        int status = itemService.saveItem(itemDTO);*/
+
+        return ResponseEntity.ok(new ResponseDTO(200, "Data received successfully", 201));
     }
 }

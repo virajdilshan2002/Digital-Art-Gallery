@@ -50,8 +50,8 @@ $('#postArtBtn').click(function () {
         error: function (xhr, status, error) {
             Swal.fire({
                 icon: "warning",
-                title: "File Size!",
-                text: "File size should be below 1MB.",
+                title: "Error!",
+                text: "Something went wrong, please try again!"
             })
         }
     });

@@ -3,19 +3,21 @@ package lk.viraj.backend.dto.other;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
+
 @Component
 public class ItemFormDataDTO {
     private String name;
     private MultipartFile image;
     private String description;
     private String categoryId;
-    private double price;
+    private BigDecimal price;
     private int qty;
 
     public ItemFormDataDTO() {
     }
 
-    public ItemFormDataDTO(String name, MultipartFile image, String description, String categoryId, double price, int qty) {
+    public ItemFormDataDTO(String name, MultipartFile image, String description, String categoryId, BigDecimal price, int qty) {
         this.name = name;
         this.image = image;
         this.description = description;
@@ -48,11 +50,19 @@ public class ItemFormDataDTO {
         this.description = description;
     }
 
-    public double getPrice() {
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -62,14 +72,6 @@ public class ItemFormDataDTO {
 
     public void setQty(int qty) {
         this.qty = qty;
-    }
-
-    public String getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
     }
 
     @Override
