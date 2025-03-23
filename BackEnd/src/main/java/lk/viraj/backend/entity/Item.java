@@ -1,91 +1,35 @@
 package lk.viraj.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.UUID;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@ToString
 
 @Entity
 @Table(name = "item")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID uid;
+    private UUID iid;
     private String name;
     private String description;
     private String image;
     private BigDecimal price;
+
     @ManyToOne
+    @JoinColumn(name = "cid")
     private Category category;
+
     @ManyToOne
+    @JoinColumn(name = "uid")
     private User user;
-
-    public Item() {
-    }
-
-    public Item(UUID uid, String name, String desc, String image, BigDecimal price, Category category, User user) {
-        this.uid = uid;
-        this.name = name;
-        this.description = desc;
-        this.image = image;
-        this.price = price;
-        this.category = category;
-        this.user = user;
-    }
-
-    public UUID getUid() {
-        return uid;
-    }
-
-    public void setUid(UUID uid) {
-        this.uid = uid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

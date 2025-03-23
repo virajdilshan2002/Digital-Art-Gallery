@@ -20,7 +20,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserDetailsService, UserService {
     @Autowired
     private JwtUtil jwtUtil;

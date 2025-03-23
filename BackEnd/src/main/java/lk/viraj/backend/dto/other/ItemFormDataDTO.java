@@ -10,18 +10,18 @@ public class ItemFormDataDTO {
     private String name;
     private MultipartFile image;
     private String description;
-    private String categoryId;
+    private String categoryName;
     private BigDecimal price;
     private int qty;
 
     public ItemFormDataDTO() {
     }
 
-    public ItemFormDataDTO(String name, MultipartFile image, String description, String categoryId, BigDecimal price, int qty) {
+    public ItemFormDataDTO(String name, MultipartFile image, String description, String categoryName, BigDecimal price, int qty) {
         this.name = name;
         this.image = image;
         this.description = description;
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
         this.price = price;
         this.qty = qty;
     }
@@ -50,12 +50,12 @@ public class ItemFormDataDTO {
         this.description = description;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public BigDecimal getPrice() {
@@ -80,6 +80,7 @@ public class ItemFormDataDTO {
                 "name='" + name + '\'' +
                 ", image=" + image +
                 ", description='" + description + '\'' +
+                ", categoryName='" + categoryName + '\'' +
                 ", price=" + price +
                 ", qty=" + qty +
                 '}';

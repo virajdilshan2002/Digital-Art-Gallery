@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@Transactional
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
@@ -27,8 +26,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO searchCategory(String id) {
-        Category category = categoryRepository.getReferenceById(id);
+    public CategoryDTO searchCategory(String name) {
+        Category category = categoryRepository.findByName(name);
         return modelMapper.map(category, CategoryDTO.class);
     }
 }

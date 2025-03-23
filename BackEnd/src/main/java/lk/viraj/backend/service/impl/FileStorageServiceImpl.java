@@ -30,20 +30,19 @@ public class FileStorageServiceImpl implements FileStorageService {
         String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
         Path filePath = Paths.get(ITEM_UPLOAD_DIR + fileName);
 
-        // Save the file
         try {
+            //save the image
             image.transferTo(filePath.toFile());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         return filePath.toString();
     }
 
     static void createIfNotExistDirectory(String directory) {
         File uploadDir = new File(directory);
         if (!uploadDir.exists()) {
-            uploadDir.mkdirs(); // ✅ Create directory if it doesn’t exist
+            uploadDir.mkdirs(); // Create directory if it doesn’t exist
         }
     }
 }

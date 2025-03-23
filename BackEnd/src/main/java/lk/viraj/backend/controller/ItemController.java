@@ -50,37 +50,25 @@ public class ItemController {
 
     @PostMapping(path = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity<ResponseDTO> save(@RequestHeader("Authorization") String authorizationg,
+    public ResponseEntity<ResponseDTO> save(@RequestHeader("Authorization") String authorization,
                                             @ModelAttribute() ItemFormDataDTO itemFormDataDTO) {
 
-        System.out.println(itemFormDataDTO);
-
         //get username in token
-        String username = jwtUtil.getUsernameFromToken(authorizationg.substring(7));
+        String username = jwtUtil.getUsernameFromToken(authorization.substring(7));
 
         //get userDTO using username
         UserDTO userDTO = userService.searchUser(username);
-        System.out.println(userDTO.getName());
 
         //get category using category name
-        CategoryDTO categoryDTO = categoryService.searchCategory(itemFormDataDTO.getCategoryId());
-        System.out.println(categoryDTO.getName());
+        CategoryDTO categoryDTO = categoryService.searchCategory(itemFormDataDTO.getCategoryName());
 
         //save image on DIRECTORY
         String path = fileStorageService.saveItemImage(itemFormDataDTO.getImage());
 
-        /*ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setName(itemFormDataDTO.getName());
-        itemDTO.setDescription(itemFormDataDTO.getDescription());
-        itemDTO.setImage(path);
-        itemDTO.setPrice(itemFormDataDTO.getPrice());
-        itemDTO.setCategory(categoryDTO);
-        itemDTO.setUser(userDTO);
+        ItemDTO itemDTO = itemService.convertToItemDTO(itemFormDataDTO, userDTO, categoryDTO, path);
 
-        System.out.println(itemDTO.getImage());
+        int status = itemService.saveItem(itemDTO);
 
-        int status = itemService.saveItem(itemDTO);*/
-
-        return ResponseEntity.ok(new ResponseDTO(200, "Data received successfully", 201));
+        return ResponseEntity.ok(new ResponseDTO(200, "Data received successfully", status));
     }
 }

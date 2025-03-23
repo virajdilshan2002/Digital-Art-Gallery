@@ -15,8 +15,7 @@ public class ItemDTO {
     public ItemDTO() {
     }
 
-    public ItemDTO(UUID uid, String name, String description, String image, BigDecimal price, CategoryDTO category, UserDTO user) {
-        this.uid = uid;
+    public ItemDTO(String name, String description, String image, BigDecimal price, CategoryDTO category, UserDTO user) {
         this.name = name;
         this.description = description;
         this.image = image;
@@ -79,5 +78,18 @@ public class ItemDTO {
 
     public void setUser(UserDTO user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemDTO{" +
+                "uid=" + uid +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                ", price=" + price +
+                ", category=" + category +
+                ", user=" + user +
+                '}';
     }
 }

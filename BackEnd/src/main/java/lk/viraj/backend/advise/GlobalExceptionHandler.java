@@ -1,7 +1,8 @@
 package lk.viraj.backend.advise;
 
 import lk.viraj.backend.dto.ResponseDTO;
-import lk.viraj.backend.util.VarList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -15,6 +16,9 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseDTO> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -29,17 +33,36 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
     }
 
-
-
-
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<ResponseDTO> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex) {
         ResponseDTO responseDTO = new ResponseDTO(
-                VarList.Expectation_Failed,
+                HttpStatus.EXPECTATION_FAILED.value(),
                 "The uploaded file exceeds the maximum allowed size",
-                null
+                ex.getMessage()
         );
         return new ResponseEntity<>(responseDTO, HttpStatus.EXPECTATION_FAILED);
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<ResponseDTO> handleNullPointerException(NullPointerException ex) {
+        logger.error("NullPointerException occurred: ", ex);
+        ResponseDTO responseDTO = new ResponseDTO(
+                HttpStatus.FORBIDDEN.value(),
+                "Null Pointer Exception",
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(responseDTO, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResponseDTO> handleGenericException(Exception ex) {
+        logger.error("An unexpected error occurred: ", ex);
+        ResponseDTO responseDTO = new ResponseDTO(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "An unexpected error occurred",
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
