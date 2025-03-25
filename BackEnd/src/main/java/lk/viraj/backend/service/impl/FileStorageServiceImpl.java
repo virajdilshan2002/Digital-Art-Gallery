@@ -1,11 +1,14 @@
 package lk.viraj.backend.service.impl;
 
 import lk.viraj.backend.service.FileStorageService;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -26,9 +29,18 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     @Override
     public String saveItemImage(MultipartFile image) {
+        return saveImage(ITEM_UPLOAD_DIR, image);
+    }
+
+    @Override
+    public String saveUserProfileImage(MultipartFile image) {
+        return saveImage(PROFILE_UPLOAD_DIR, image);
+    }
+
+    private String saveImage(String path, MultipartFile image) {
         // Generate a unique filename
         String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-        Path filePath = Paths.get(ITEM_UPLOAD_DIR + fileName);
+        Path filePath = Paths.get(path + fileName);
 
         try {
             //save the image
@@ -38,6 +50,23 @@ public class FileStorageServiceImpl implements FileStorageService {
         }
         return filePath.toString();
     }
+
+    @Override
+    public Resource getProfileImage(String imagePath) {
+        try {
+            Path filePath = Paths.get(imagePath);
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Image not found: " + imagePath);
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Error loading image: " + imagePath, e);
+        }
+    }
+
 
     static void createIfNotExistDirectory(String directory) {
         File uploadDir = new File(directory);

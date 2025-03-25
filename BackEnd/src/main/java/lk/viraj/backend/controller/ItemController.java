@@ -53,11 +53,8 @@ public class ItemController {
     public ResponseEntity<ResponseDTO> save(@RequestHeader("Authorization") String authorization,
                                             @ModelAttribute() ItemFormDataDTO itemFormDataDTO) {
 
-        //get username in token
-        String username = jwtUtil.getUsernameFromToken(authorization.substring(7));
-
-        //get userDTO using username
-        UserDTO userDTO = userService.searchUser(username);
+        //get userDTO using token
+        UserDTO userDTO = userService.getUserByToken(authorization.substring(7));
 
         //get category using category name
         CategoryDTO categoryDTO = categoryService.searchCategory(itemFormDataDTO.getCategoryName());
@@ -65,8 +62,10 @@ public class ItemController {
         //save image on DIRECTORY
         String path = fileStorageService.saveItemImage(itemFormDataDTO.getImage());
 
+        //convert ItemFormDataDTO to ItemDTO
         ItemDTO itemDTO = itemService.convertToItemDTO(itemFormDataDTO, userDTO, categoryDTO, path);
 
+        //save item
         int status = itemService.saveItem(itemDTO);
 
         return ResponseEntity.ok(new ResponseDTO(200, "Data received successfully", status));

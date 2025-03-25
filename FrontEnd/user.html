@@ -5,6 +5,7 @@
     <title>Dashboard</title>
     <meta name="description" content="User Dashboard">
     <link rel="stylesheet" href="framework/bootstrap/bootstrap.min.css">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <style>
         body::-webkit-scrollbar {
             display: none;
@@ -17,8 +18,14 @@
 <div id="loading" class="position-fixed top-0 start-0 w-100 h-100"
      style="display: none; z-index: 1050; background-color: rgba(0,0,0,0.8)">
     <div class="py-4 w-100 text-white d-flex justify-content-center align-items-center column-gap-2 position-absolute top-50 start-50 translate-middle">
-        <div class="spinner-border" role="status"></div>
-        <span class="fs-6">Loading...</span>
+        <lottie-player
+                src="assets/img/lottie/square-loader.json"
+                background="transparent"
+                speed="1"
+                loop="true"
+                autoplay="true"
+                style="width: 120px; height: 120px;">
+        </lottie-player>
     </div>
 </div>
 

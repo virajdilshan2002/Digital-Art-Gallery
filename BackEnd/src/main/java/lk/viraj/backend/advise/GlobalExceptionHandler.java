@@ -30,6 +30,7 @@ public class GlobalExceptionHandler {
                 "Validation Failed",
                 errors
         );
+        System.out.println(errors);
         return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
     }
 
@@ -54,7 +55,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(responseDTO, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(Exception.class)
+   /* @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseDTO> handleGenericException(Exception ex) {
         logger.error("An unexpected error occurred: ", ex);
         ResponseDTO responseDTO = new ResponseDTO(
@@ -63,6 +64,5 @@ public class GlobalExceptionHandler {
                 ex.getMessage()
         );
         return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
+    }*/
 }

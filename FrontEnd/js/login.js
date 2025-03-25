@@ -22,8 +22,8 @@ $(document).ready(function () {
                     showAlertThenRedirect("success","Success","Login Successful!", "user.html")
                 }
             },
-            error: function (error) {
-                showAlert("error","Oops...","Invalid Email or Password!")
+            error: function (xhr,error) {
+                checkXHR(xhr)
             },
         });
     });

@@ -33,6 +33,7 @@ $(document).ready(function () {
                     data: JSON.stringify({
                         "email": email,
                         "password": password,
+                        "imagePath": null,
                         "name": name,
                         "contact": contact,
                         "address": address,
@@ -52,9 +53,9 @@ $(document).ready(function () {
                     error: function (xhr, error) {
                         if (xhr){
                             checkXHR(xhr)
-                            return;
                         }
-                        let data = error.responseJSON.data;
+
+                        let data = xhr.responseJSON.data;
                         if (data.name != null){
                             errorAlert(data.name)
                         }else if (data.nic != null){

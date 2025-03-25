@@ -5,28 +5,36 @@ import jakarta.validation.Valid;
 import lk.viraj.backend.dto.AuthDTO;
 import lk.viraj.backend.dto.ResponseDTO;
 import lk.viraj.backend.dto.UserDTO;
+import lk.viraj.backend.dto.other.ProfileImageUploadDTO;
+import lk.viraj.backend.service.FileStorageService;
 import lk.viraj.backend.service.UserService;
 import lk.viraj.backend.util.JwtUtil;
 import lk.viraj.backend.util.VarList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/user")
+@MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024,
+        maxFileSize = 10 * 1024 * 1024,
+        maxRequestSize = 10 * 1024 * 1024)
 @CrossOrigin
 public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
+    private final FileStorageService fileStorageService;
 
     //constructor injection
-    public UserController(UserService userService, JwtUtil jwtUtil) {
+    public UserController(UserService userService, JwtUtil jwtUtil, FileStorageService fileStorageService) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
+        this.fileStorageService = fileStorageService;
     }
 
     @GetMapping(path = "/retrieve")
@@ -39,8 +47,27 @@ public class UserController {
     @GetMapping(path = "/profile")
     @PreAuthorize("hasAnyAuthority('USER')")
     public ResponseEntity<ResponseDTO> getProfile(@RequestHeader("Authorization") String authorization) {
-        UserDTO userByToken = userService.getUserByToken(authorization.substring(7));
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(VarList.OK, "profile data retrieved success", userByToken));
+        UserDTO user = userService.getUserByToken(authorization.substring(7));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(VarList.OK, "profile data retrieved success", user));
+    }
+
+    @PostMapping(path = "/profile/saveImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public ResponseEntity<ResponseDTO> saveProfileImage(@RequestHeader("Authorization") String authorization, @ModelAttribute() ProfileImageUploadDTO piuDTO) {
+        try {
+            UserDTO user = userService.getUserByToken(authorization.substring(7));
+
+            String savedPath = fileStorageService.saveUserProfileImage(piuDTO.getFile());
+
+            user.setImagePath(savedPath);
+
+            userService.updateUser(user);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(VarList.Created, "Success", user));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+
     }
 
     @PostMapping("/register")

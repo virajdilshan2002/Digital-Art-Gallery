@@ -6,14 +6,15 @@
     <meta name="description" content="Sign up to access the digital art gallery">
     <title>Digital Art Gallery | SignUp</title>
     <link rel="stylesheet" href="framework/bootstrap/bootstrap.min.css">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
-<body><!-- Start: Navbar Centered Links -->
+<body>
+<!-- Start: Navbar Centered Links -->
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3 bg-light shadow" id="mainNav">
     <div class="container">
-        <img id="siteLogo" src="assets/img/illustrations/quill-pen.svg" alt="User Logo" class="rounded-circle object-fit-cover me-2" style="width: 40px; height: 40px;">
-
-        <a class="navbar-brand d-flex align-items-center"
-                              href="index.html"><span>Digital Art Gallery</span></a>
+        <img id="siteLogo" src="assets/img/illustrations/quill-pen.svg" alt="User Logo"
+             class="rounded-circle object-fit-cover me-2" style="width: 40px; height: 40px;">
+        <a class="navbar-brand d-flex align-items-center" href="index.html"><span>Digital Art Gallery</span></a>
         <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
                 class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1">
@@ -22,7 +23,8 @@
                 <li class="nav-item"><a class="nav-link" href="login.html">Log in</a></li>
                 <li class="nav-item"><a class="nav-link" href="">Contact Us</a></li>
             </ul>
-            <a class="btn btn-primary shadow rounded-5 px-4" role="button" href="login.html">Log in</a></div>
+            <a class="btn btn-primary shadow rounded-5 px-4" role="button" href="login.html">Log in</a>
+        </div>
     </div>
 </nav>
 <main>
@@ -30,64 +32,116 @@
     <div id="loading" class="position-fixed top-0 start-0 w-100 h-100"
          style="display: none; z-index: 1050; background-color: rgba(0,0,0,0.8)">
         <div class="py-4 w-100 text-white d-flex justify-content-center align-items-center column-gap-2 position-absolute top-50 start-50 translate-middle">
-            <div class="spinner-border" role="status"></div>
-            <span class="fs-6">Loading...</span>
+            <lottie-player
+                    src="assets/img/lottie/square-loader.json"
+                    background="transparent"
+                    speed="1"
+                    loop
+                    autoplay
+                    style="width: 120px; height: 120px;">
+            </lottie-player>
         </div>
     </div>
 </main>
-<section class="py-4 py-md-5 my-5">
+<!--<section class="py-4 py-md-5">
     <div class="container py-md-5">
         <div class="row">
-            <div class="col-md-6 text-center"><img class="img-fluid w-100"
-                                                   src="assets/img/illustrations/register.svg?h=aa57a3341846af8b091dc008c25da279">
-            </div>
-            <div class="col-md-5 col-xl-4 text-center text-md-start"><h2 class="display-6 fw-bold mb-5"><span
-                    class="underline pb-1"><strong>Register Here!</strong></span></h2>
-                <form id="register-form" method="post" data-bs-theme="light">
+            <div class="col-md-6 text-center"><img class="img-fluid w-100" src="assets/img/illustrations/register.svg?h=aa57a3341846af8b091dc008c25da279"></div>
+            <div class="col-md-5 col-xl-4 text-center text-md-start">
+                <h2 class="display-6 fw-bold mb-5"><span class="underline pb-1"><strong>Register Here!</strong></span></h2>
+                <form id="register-form" method="post" data-bs-theme="light" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <input id="email" class="shadow-sm form-control" type="email" name="email"
-                               placeholder="Email" autocomplete="username" required>
+                        <input id="email" class="rounded-5 shadow-sm form-control" type="email" name="email" placeholder="Email" autocomplete="username" required>
                     </div>
                     <div class="mb-3">
-                        <input id="name" class="shadow-sm form-control" type="text" name="name"
-                               placeholder="Name" autocomplete="off" required>
+                        <input id="name" class="rounded-5 shadow-sm form-control" type="text" name="name" placeholder="Name" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
-                        <input id="nic" class="shadow-sm form-control" type="text" name="nic"
-                               placeholder="NIC" autocomplete="off" required>
+                        <input id="nic" class="rounded-5 shadow-sm form-control" type="text" name="nic" placeholder="NIC" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
-                        <input id="address" class="shadow-sm form-control" type="text" name="address"
-                               placeholder="Address" autocomplete="off" required>
+                        <input id="address" class="rounded-5 shadow-sm form-control" type="text" name="address" placeholder="Address" autocomplete="off" required>
                     </div>
                     <div class="mb-3">
-                        <input id="contact" class="shadow-sm form-control" type="number" name="contact"
-                               placeholder="Contact Number" autocomplete="off" required>
+                        <input id="contact" class="rounded-5 shadow-sm form-control" type="number" name="contact" placeholder="Contact Number" autocomplete="off" required>
                     </div>
-
-                    <div class="mb-3"><input id="password" class="shadow-sm form-control" type="password" name="password"
-                                             placeholder="Password" autocomplete="new-password" required></div>
-                    <div class="mb-3"><input id="confirmPassword" class="shadow-sm form-control" type="password" name="password_repeat"
-                                             placeholder="Confirm Password" autocomplete="new-password" required></div>
-                    <div class="mb-5">
-                        <button class="btn btn-primary shadow px-4" type="submit">Create account</button>
+                    <div class="mb-3">
+                        <input id="password" class="rounded-5 shadow-sm form-control" type="password" name="password" placeholder="Password" autocomplete="new-password" required>
+                    </div>
+                    <div class="mb-3">
+                        <input id="confirmPassword" class="rounded-5 shadow-sm form-control" type="password" name="password_repeat" placeholder="Confirm Password" autocomplete="new-password" required>
+                    </div>
+                    <div class="mb-5 d-flex justify-content-center align-items-center ">
+                        <button class="rounded-5 btn btn-primary shadow px-4" type="submit">Create account</button>
                     </div>
                 </form>
-                <p class="text-muted">Have an account? <a href="login.html">Log in&nbsp;<svg
-                        xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2"
-                        stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                        class="icon icon-tabler icon-tabler-arrow-narrow-right">
+                <p class="text-muted">Have an account? <a href="login.html">Log in&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-arrow-narrow-right">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                     <path d="M5 12l14 0"></path>
                     <path d="M15 16l4 -4"></path>
                     <path d="M15 8l4 4"></path>
-                </svg>
-                </a>&nbsp;
-                </p>
+                </svg></a>&nbsp;</p>
             </div>
         </div>
     </div>
-</section><!-- Start: Footer Multi Column -->
+</section>-->
+
+<section class="py-5 mt-5">
+    <div class="container py-5">
+        <div class="row mb-4 mb-lg-5">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <p class="fw-bold text-success mb-2">Sign up</p>
+                <h2 class="fw-bold">Welcome</h2>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6 col-xl-4">
+                <div class="card">
+                    <div class="card-body text-center d-flex flex-column align-items-center">
+                        <lottie-player
+                                src="assets/img/lottie/opener-loading.json"
+                                background="transparent"
+                                speed="1"
+                                loop
+                                autoplay
+                                style="width: 120px; height: 120px;">
+                        </lottie-player>
+                        <form id="register-form" method="post" data-bs-theme="light">
+                            <div class="mb-3">
+                                <input id="email" class="form-control" type="email" name="email" placeholder="Email" autocomplete="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <input id="name" class="form-control" type="text" name="name" placeholder="Name" autocomplete="off" required>
+                            </div>
+                            <div class="mb-3">
+                                <input id="nic" class="form-control" type="text" name="nic" placeholder="NIC" autocomplete="off" required>
+                            </div>
+                            <div class="mb-3">
+                                <input id="address" class="form-control" type="text" name="address" placeholder="Address" autocomplete="off" required>
+                            </div>
+                            <div class="mb-3">
+                                <input id="contact" class="form-control" type="number" name="contact" placeholder="Contact Number" autocomplete="off" required>
+                            </div>
+                            <div class="mb-3">
+                                <input id="password" class="form-control" type="password" name="password"
+                                       placeholder="Password" autocomplete="new-password" required/>
+                            </div>
+                            <div class="mb-3">
+                                <input id="confirmPassword" class="form-control" type="password" name="password_repeat" placeholder="Confirm Password" autocomplete="new-password" required>
+                            </div>
+                            <div class="mb-3">
+                                <button class="btn btn-primary shadow d-block w-100" type="submit">Register</button>
+                            </div>
+                            <p class="text-muted">Already have an account?<a class="text-decoration-none ms-2" href="login.html">Log in</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Start: Footer Multi Column -->
 <footer>
     <div class="container py-4 py-lg-5">
         <hr/>
@@ -121,5 +175,29 @@
 <script src="framework/sweetalert2/sweetalert2@11.js"></script>
 <script src="js/util.js"></script>
 <script src="js/register.js"></script>
+<!--<script>
+    $(document).ready(function () {
+        const $imagePreview = $('#imagePreview');
+        const $previewImage = $('#previewImage');
+        const $fileInput = $('#profileImage');
+
+        // Trigger file input when the previewer is clicked
+        $imagePreview.on('click', function () {
+            $fileInput.trigger('click');
+        });
+
+        // Display the selected image in the previewer
+        $fileInput.on('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $previewImage.attr('src', e.target.result); // Set the image preview
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>-->
 </body>
 </html>
