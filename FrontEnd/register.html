@@ -7,6 +7,7 @@
     <title>Digital Art Gallery | SignUp</title>
     <link rel="stylesheet" href="framework/bootstrap/bootstrap.min.css">
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 <!-- Start: Navbar Centered Links -->
@@ -43,48 +44,6 @@
         </div>
     </div>
 </main>
-<!--<section class="py-4 py-md-5">
-    <div class="container py-md-5">
-        <div class="row">
-            <div class="col-md-6 text-center"><img class="img-fluid w-100" src="assets/img/illustrations/register.svg?h=aa57a3341846af8b091dc008c25da279"></div>
-            <div class="col-md-5 col-xl-4 text-center text-md-start">
-                <h2 class="display-6 fw-bold mb-5"><span class="underline pb-1"><strong>Register Here!</strong></span></h2>
-                <form id="register-form" method="post" data-bs-theme="light" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <input id="email" class="rounded-5 shadow-sm form-control" type="email" name="email" placeholder="Email" autocomplete="username" required>
-                    </div>
-                    <div class="mb-3">
-                        <input id="name" class="rounded-5 shadow-sm form-control" type="text" name="name" placeholder="Name" autocomplete="off" required>
-                    </div>
-                    <div class="mb-3">
-                        <input id="nic" class="rounded-5 shadow-sm form-control" type="text" name="nic" placeholder="NIC" autocomplete="off" required>
-                    </div>
-                    <div class="mb-3">
-                        <input id="address" class="rounded-5 shadow-sm form-control" type="text" name="address" placeholder="Address" autocomplete="off" required>
-                    </div>
-                    <div class="mb-3">
-                        <input id="contact" class="rounded-5 shadow-sm form-control" type="number" name="contact" placeholder="Contact Number" autocomplete="off" required>
-                    </div>
-                    <div class="mb-3">
-                        <input id="password" class="rounded-5 shadow-sm form-control" type="password" name="password" placeholder="Password" autocomplete="new-password" required>
-                    </div>
-                    <div class="mb-3">
-                        <input id="confirmPassword" class="rounded-5 shadow-sm form-control" type="password" name="password_repeat" placeholder="Confirm Password" autocomplete="new-password" required>
-                    </div>
-                    <div class="mb-5 d-flex justify-content-center align-items-center ">
-                        <button class="rounded-5 btn btn-primary shadow px-4" type="submit">Create account</button>
-                    </div>
-                </form>
-                <p class="text-muted">Have an account? <a href="login.html">Log in&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-arrow-narrow-right">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <path d="M5 12l14 0"></path>
-                    <path d="M15 16l4 -4"></path>
-                    <path d="M15 8l4 4"></path>
-                </svg></a>&nbsp;</p>
-            </div>
-        </div>
-    </div>
-</section>-->
 
 <section class="py-5 mt-5">
     <div class="container py-5">
@@ -131,6 +90,15 @@
                             </div>
                             <div class="mb-3">
                                 <button class="btn btn-primary shadow d-block w-100" type="submit">Register</button>
+                            </div>
+                            <div class="mb-3">
+                                <div id="g_id_onload"
+                                     data-client_id="624860176860-vfp0d6pel24u8lhvvfdbbm3ptgac4rku.apps.googleusercontent.com"
+                                     data-callback="handleCredentialResponse">
+                                </div>
+
+                                <div class="g_id_signin" data-type="standard"></div>
+
                             </div>
                             <p class="text-muted">Already have an account?<a class="text-decoration-none ms-2" href="login.html">Log in</a></p>
                         </form>
@@ -199,5 +167,27 @@
         });
     });
 </script>-->
+<script>
+    function handleCredentialResponse(response) {
+        console.log("Encoded JWT ID Token: " + response.credential);
+        // Send this token to your backend for verification
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/v1/auth/google",
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "token": response.credential
+            }),
+            success: function (response, data) {
+                console.log("Res:", response.message);
+            },
+            error: function (error) {
+                console.log('Error:', error);
+            }
+        })
+
+    }
+</script>
 </body>
 </html>

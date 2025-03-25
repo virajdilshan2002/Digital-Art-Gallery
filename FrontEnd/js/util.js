@@ -47,9 +47,10 @@ function loadProfile(role) {
             success: function (res) {
                 let name = res.data.name;
                 $('#userName').text(name);
-                // $('#profileLogo').attr('src', res.data.profileImage);
+                $('#profileLogo').attr('src', res.data.imagePath);
                 $('#profileName').text(name);
 
+                console.log(res.data.imagePath)
             },
             error: function (error) {
                 showAlertThenRedirect(

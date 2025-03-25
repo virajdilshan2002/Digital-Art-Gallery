@@ -15,32 +15,33 @@ import java.nio.file.Paths;
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
 
-    private static final String DEFAULT_DIRECTORY = "C:\\Users\\asus\\Desktop\\Digital Art Gallery\\BackEnd\\src\\main\\resources\\static\\";
-    private static final String DEFAULT_IMAGE_DIRECTORY = "C:\\Users\\asus\\Desktop\\Digital Art Gallery\\BackEnd\\src\\main\\resources\\static\\images\\";
-    private static final String ITEM_UPLOAD_DIR = DEFAULT_IMAGE_DIRECTORY + "items\\";
-    private static final String PROFILE_UPLOAD_DIR = DEFAULT_IMAGE_DIRECTORY + "users\\";
+    private static final String ITEMS_DIR = "items\\";
+    private static final String USERS_DIR = "users\\";
+
+    private static final String FRONTEND_DIRECTORY = "assets\\sys\\";
+    private static final String DEFAULT_DIRECTORY = "C:\\Users\\asus\\Desktop\\Digital Art Gallery\\FrontEnd\\" + FRONTEND_DIRECTORY;
+    private static final String ITEM_UPLOAD_DIR = DEFAULT_DIRECTORY + ITEMS_DIR;
+    private static final String USER_PROFILE_UPLOAD_DIR = DEFAULT_DIRECTORY + USERS_DIR;
 
     static {
-        createIfNotExistDirectory(DEFAULT_DIRECTORY);
-        createIfNotExistDirectory(DEFAULT_IMAGE_DIRECTORY);
         createIfNotExistDirectory(ITEM_UPLOAD_DIR);
-        createIfNotExistDirectory(PROFILE_UPLOAD_DIR);
+        createIfNotExistDirectory(USER_PROFILE_UPLOAD_DIR);
     }
 
     @Override
     public String saveItemImage(MultipartFile image) {
-        return saveImage(ITEM_UPLOAD_DIR, image);
+        return saveImage(ITEM_UPLOAD_DIR, ITEMS_DIR, image);
     }
 
     @Override
     public String saveUserProfileImage(MultipartFile image) {
-        return saveImage(PROFILE_UPLOAD_DIR, image);
+        return saveImage(USER_PROFILE_UPLOAD_DIR, USERS_DIR, image);
     }
 
-    private String saveImage(String path, MultipartFile image) {
-        // Generate a unique filename
+    private String saveImage(String savingPath, String frontEndDir, MultipartFile image) {
+
         String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-        Path filePath = Paths.get(path + fileName);
+        Path filePath = Paths.get(savingPath + fileName);
 
         try {
             //save the image
@@ -48,7 +49,7 @@ public class FileStorageServiceImpl implements FileStorageService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return filePath.toString();
+        return FRONTEND_DIRECTORY + frontEndDir + fileName;
     }
 
     @Override
