@@ -8,6 +8,42 @@
     <link rel="stylesheet" href="framework/bootstrap/bootstrap.min.css">
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            color: #757575;
+            border: 1px solid #dcdcdc;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            width: 250px;
+        }
+
+        .google-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .google-btn:hover {
+            background-color: #f8f9fa;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .google-btn:active {
+            background-color: #ececec;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+    </style>
 </head>
 <body>
 <!-- Start: Navbar Centered Links -->
@@ -67,40 +103,48 @@
                         </lottie-player>
                         <form id="register-form" method="post" data-bs-theme="light">
                             <div class="mb-3">
-                                <input id="email" class="form-control" type="email" name="email" placeholder="Email" autocomplete="username" required>
+                                <input id="email" class="form-control" type="email" name="email" placeholder="Email"
+                                       autocomplete="username" required>
                             </div>
                             <div class="mb-3">
-                                <input id="name" class="form-control" type="text" name="name" placeholder="Name" autocomplete="off" required>
+                                <input id="name" class="form-control" type="text" name="name" placeholder="Name"
+                                       autocomplete="off" required>
                             </div>
                             <div class="mb-3">
-                                <input id="nic" class="form-control" type="text" name="nic" placeholder="NIC" autocomplete="off" required>
+                                <input id="nic" class="form-control" type="text" name="nic" placeholder="NIC"
+                                       autocomplete="off" required>
                             </div>
                             <div class="mb-3">
-                                <input id="address" class="form-control" type="text" name="address" placeholder="Address" autocomplete="off" required>
+                                <input id="address" class="form-control" type="text" name="address"
+                                       placeholder="Address" autocomplete="off" required>
                             </div>
                             <div class="mb-3">
-                                <input id="contact" class="form-control" type="number" name="contact" placeholder="Contact Number" autocomplete="off" required>
+                                <input id="contact" class="form-control" type="number" name="contact"
+                                       placeholder="Contact Number" autocomplete="off" required>
                             </div>
                             <div class="mb-3">
                                 <input id="password" class="form-control" type="password" name="password"
                                        placeholder="Password" autocomplete="new-password" required/>
                             </div>
                             <div class="mb-3">
-                                <input id="confirmPassword" class="form-control" type="password" name="password_repeat" placeholder="Confirm Password" autocomplete="new-password" required>
+                                <input id="confirmPassword" class="form-control" type="password" name="password_repeat"
+                                       placeholder="Confirm Password" autocomplete="new-password" required>
                             </div>
                             <div class="mb-3">
                                 <button class="btn btn-primary shadow d-block w-100" type="submit">Register</button>
                             </div>
-                            <!--<div class="mb-3">
-                                <div id="g_id_onload"
-                                     data-client_id="624860176860-vfp0d6pel24u8lhvvfdbbm3ptgac4rku.apps.googleusercontent.com"
-                                     data-callback="handleCredentialResponse">
-                                </div>
+                            <div class="mb-3">
 
-                                <div class="g_id_signin" data-type="standard"></div>
+                                <a class="google-btn"
+                                   href="https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:8080/api/v1/auth/oauth2Login&response_type=code&client_id=624860176860-vfp0d6pel24u8lhvvfdbbm3ptgac4rku.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&access_type=offline&prompt=select_account">
+                                    <img src="https://developers.google.com/identity/images/g-logo.png"
+                                         alt="Google Logo">
+                                    Sign in with Google
+                                </a>
+                            </div>
 
-                            </div>-->
-                            <p class="text-muted">Already have an account?<a class="text-decoration-none ms-2" href="login.html">Log in</a></p>
+                            <p class="text-muted">Already have an account?<a class="text-decoration-none ms-2"
+                                                                             href="login.html">Log in</a></p>
                         </form>
                     </div>
                 </div>
@@ -138,6 +182,7 @@
         </div>
     </div>
 </footer>
+
 <script src="framework/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="framework/jquery/jquery-3.7.1.min.js"></script>
 <script src="framework/sweetalert2/sweetalert2@11.js"></script>
@@ -167,20 +212,50 @@
         });
     });
 </script>-->
-<script>
+<!--<script>
+    $('#signInGoogleBtn').on('click', function () {
+        $.ajax({
+            url: `http://localhost:8080/api/v1/auth/oauth2Login`,
+            method: "GET",
+            contentType: "application/json",
+            data: JSON.stringify({
+                "redirect_uri" : "http://localhost:8080/api/v1/auth/oauth2Login",
+                "response_type" : "code",
+                "client_id" : "624860176860-vfp0d6pel24u8lhvvfdbbm3ptgac4rku.apps.googleusercontent.com",
+                "scope" : "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid",
+                "access_type" : "offline"
+            }),
+            success: function (response) {
+                if (response.code === 201) {
+                    // Store tokens in localStorage
+                    localStorage.setItem("accessToken", response.data.accessToken);
+                    localStorage.setItem("jwtToken", response.data.jwtToken);
+
+                    // Redirect to home page
+                    window.location.href = "/index.html";
+                } else {
+                    alert("Login failed: " + response.message);
+                }
+            },
+            error: function (xhr) {
+                alert("Error logging in: " + xhr.responseText);
+            }
+        });
+    });
+
     function handleCredentialResponse(response) {
-        console.log("Encoded JWT ID Token: " + response.credential);
+        console.log("Encoded JWT ID Token: " + response.data);
         // Send this token to your backend for verification
 
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/api/v1/auth/google",
+            url: "http://localhost:8080/api/v1/auth/grantGoogleAccess",
             contentType: 'application/json',
             data: JSON.stringify({
-                "token": response.credential
+                "token" : response.credential
             }),
             success: function (response, data) {
-                console.log("Res:", response.message);
+                console.log("Res:", response.data);
             },
             error: function (error) {
                 console.log('Error:', error);
@@ -188,6 +263,6 @@
         })
 
     }
-</script>
+</script>-->
 </body>
 </html>

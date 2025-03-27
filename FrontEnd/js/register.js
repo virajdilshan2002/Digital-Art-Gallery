@@ -41,7 +41,7 @@ $(document).ready(function () {
                         "role": null
                     }),
                     success: function (response) {
-                        localStorage.setItem("token", response.data.token);
+                        localStorage.setItem("token", response.data.jwtToken);
                         Swal.fire({
                             icon: "success",
                             title: "Success",

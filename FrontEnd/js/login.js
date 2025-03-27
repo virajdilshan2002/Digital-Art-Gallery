@@ -14,7 +14,7 @@ $(document).ready(function () {
                 "password": password
             }),
             success: function (response) {
-                localStorage.setItem("token", response.data.token);
+                localStorage.setItem("token", response.data.jwtToken);
 
                 if (response.data.user.role === "ADMIN") {
                     showAlertThenRedirect("success","Success","Login Successful!", "admin.html")

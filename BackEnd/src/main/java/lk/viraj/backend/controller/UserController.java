@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -49,6 +51,12 @@ public class UserController {
     public ResponseEntity<ResponseDTO> getProfile(@RequestHeader("Authorization") String authorization) {
         UserDTO user = userService.getUserByToken(authorization.substring(7));
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(VarList.OK, "profile data retrieved success", user));
+    }
+
+    @GetMapping(path = "/google/profile")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public ResponseEntity<ResponseDTO> getProfile(OAuth2AuthenticationToken token, Model model) {
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(VarList.OK, "profile data retrieved success", token));
     }
 
     @PostMapping(path = "/profile/saveImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

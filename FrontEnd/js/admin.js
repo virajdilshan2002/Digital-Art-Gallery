@@ -22,7 +22,7 @@ $('#image').on('change', function(event) {
 });
 
 $('#postArtBtn').click(function () {
-    let token = localStorage.getItem('token');
+    let jwtToken = localStorage.getItem('jwtToken');
     const formData = new FormData($('#postArtForm')[0]);
 
     $.ajax({
@@ -33,7 +33,7 @@ $('#postArtBtn').click(function () {
         processData: false,
         contentType: false,
         headers: {
-            Authorization: 'Bearer ' + token
+            Authorization: 'Bearer ' + jwtToken
         },
         success: function (response) {
             Swal.fire(

@@ -23,6 +23,8 @@ public class User  {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "uid")
     private UUID uid;
+    private String googleId;
+    private boolean isGoogleUser;
     @Column(unique = true)
     private String email;
     private String password;

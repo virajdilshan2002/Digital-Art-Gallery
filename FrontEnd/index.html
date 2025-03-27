@@ -137,26 +137,27 @@
 <script src="js/util.js"></script>
 <script>
     $(document).ready(function () {
-        let token;
+        let jwtToken;
 
         function retrieveAccount() {
             //check if token is present
-            token = localStorage.getItem('token')
+            jwtToken = localStorage.getItem('jwtToken')
 
-            if (token !== null) {
+            if (jwtToken !== null) {
                 $.ajax({
                     url: 'http://localhost:8080/api/v1/user/retrieve',
                     type: 'GET',
-                    headers: {"Authorization": "Bearer " + token},
+                    headers: {"Authorization": "Bearer " + jwtToken},
                     success: function (res) {
                         if (res.data === 'ADMIN') {
-                            window.location.href = "admin.html";
+                            window.location.href = 'admin.html';
                         } else {
                             window.location.href = 'user.html';
                         }
                     },
                     error: function (xhr, error) {
-                        if (xhr.status === 0) {
+                        console.log(error)
+                        /*if (xhr.status === 0) {
                             if (xhr.readyState === 0) {
                                 // Server is down (Connection refused)
                                 Swal.fire({
@@ -164,7 +165,8 @@
                                     title: "Server Down",
                                     text: "Cannot connect to the server!",
                                 }).then(() => {
-                                    localStorage.removeItem("token")
+                                    localStorage.removeItem("jwtToken")
+                                    localStorage.removeItem("accessToken")
                                     window.location.href = "404.html";
                                 })
                             } else {
@@ -175,7 +177,7 @@
                                     text: "The request was blocked. Check CORS settings or firewall rules.",
                                 });
                             }
-                        }
+                        }*/
                     }
                 })
             }
@@ -187,6 +189,18 @@
 
         retrieveAccount()
     })
+</script>
+<script>
+    // In home page script (React, Vanilla JS)
+    const urlParams = new URLSearchParams(window.location.search);
+    const jwtToken = urlParams.get("jwtToken");
+    const accessToken = urlParams.get("accessToken");
+
+    if (jwtToken) {
+        localStorage.setItem("jwtToken", jwtToken);
+        localStorage.setItem("accessToken", accessToken);
+    }
+
 </script>
 </body>
 </html>

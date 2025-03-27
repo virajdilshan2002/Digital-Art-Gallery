@@ -17,6 +17,8 @@ import java.util.UUID;
 @ToString
 public class  UserDTO {
     private UUID uid;
+    private String googleId;
+    private boolean isGoogleUser;
     @Email(message = "Email should be valid")
     private String email;
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", message = "Password should contain at least one digit, one lowercase letter, one uppercase letter, one special character and should be 8 characters long")

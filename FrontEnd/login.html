@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="framework/bootstrap/bootstrap.min.css">
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-<!--    <script src="https://apis.google.com/js/platform.js" async defer></script>-->
 </head>
 <body>
 <nav id="mainNav" class="navbar navbar-expand-md fixed-top navbar-shrink py-3 shadow bg-light">
@@ -74,6 +73,15 @@
                             </div>
                             <div class="mb-3">
                                 <button class="btn btn-primary shadow d-block w-100" type="submit">Log in</button>
+                            </div>
+                            <div class="mb-3">
+
+                                <a class="google-btn"
+                                   href="https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:8080/api/v1/auth/oauth2Login&response_type=code&client_id=624860176860-vfp0d6pel24u8lhvvfdbbm3ptgac4rku.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&access_type=offline">
+                                    <img src="https://developers.google.com/identity/images/g-logo.png"
+                                         alt="Google Logo">
+                                    Login in with Google
+                                </a>
                             </div>
 
                             <p class="text-muted">Forgot your password?</p>

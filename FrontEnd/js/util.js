@@ -4,7 +4,7 @@ $(document).ajaxStart(function () {
     $("#loading").fadeOut();
 })
 
-function showAlert(icon,title,text) {
+function showAlert(icon, title, text) {
     Swal.fire({
         icon: icon,
         title: title,
@@ -15,7 +15,7 @@ function showAlert(icon,title,text) {
 }
 
 
-function showAlertThenRedirect(icon,title,text,url) {
+function showAlertThenRedirect(icon, title, text, url) {
     Swal.fire({
         icon: icon,
         title: title,
@@ -29,28 +29,27 @@ function showAlertThenRedirect(icon,title,text,url) {
 }
 
 function logout() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('accessToken');
     window.location.href = 'index.html';
 }
 
 function loadProfile(role) {
     //check if token is present
-    const token = localStorage.getItem('token')
-    if (token === null) {
+    const jwtToken = localStorage.getItem('jwtToken')
+    if (jwtToken === null) {
         window.location.href = 'index.html';
     } else {
         //get user profile
         $.ajax({
             url: `http://localhost:8080/api/v1/${role}/profile`,
             type: 'GET',
-            headers: {"Authorization": "Bearer " + token},
+            headers: {"Authorization": "Bearer " + jwtToken},
             success: function (res) {
                 let name = res.data.name;
                 $('#userName').text(name);
                 $('#profileLogo').attr('src', res.data.imagePath);
                 $('#profileName').text(name);
-
-                console.log(res.data.imagePath)
             },
             error: function (error) {
                 showAlertThenRedirect(

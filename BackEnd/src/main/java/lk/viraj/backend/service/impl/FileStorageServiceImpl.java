@@ -38,8 +38,7 @@ public class FileStorageServiceImpl implements FileStorageService {
         return saveImage(USER_PROFILE_UPLOAD_DIR, USERS_DIR, image);
     }
 
-    private String saveImage(String savingPath, String frontEndDir, MultipartFile image) {
-
+    private String saveImage(String savingPath, String dir, MultipartFile image) {
         String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
         Path filePath = Paths.get(savingPath + fileName);
 
@@ -49,25 +48,8 @@ public class FileStorageServiceImpl implements FileStorageService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return FRONTEND_DIRECTORY + frontEndDir + fileName;
+        return FRONTEND_DIRECTORY + dir + fileName;
     }
-
-    @Override
-    public Resource getProfileImage(String imagePath) {
-        try {
-            Path filePath = Paths.get(imagePath);
-            Resource resource = new UrlResource(filePath.toUri());
-
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            } else {
-                throw new RuntimeException("Image not found: " + imagePath);
-            }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Error loading image: " + imagePath, e);
-        }
-    }
-
 
     static void createIfNotExistDirectory(String directory) {
         File uploadDir = new File(directory);
