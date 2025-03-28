@@ -1,5 +1,6 @@
 package lk.viraj.backend.service;
 
+import lk.viraj.backend.dto.ProfileDTO;
 import lk.viraj.backend.dto.UserDTO;
 
 public interface UserService {
@@ -14,4 +15,6 @@ public interface UserService {
     String getUserRoleByToken(String token);
 
     int saveAdmin(UserDTO userDTO);
+
+    ProfileDTO convertToProfileDTO(UserDTO user);
 }

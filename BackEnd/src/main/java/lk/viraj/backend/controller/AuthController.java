@@ -6,10 +6,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import lk.viraj.backend.dto.AuthDTO;
-import lk.viraj.backend.dto.LoginDTO;
-import lk.viraj.backend.dto.ResponseDTO;
-import lk.viraj.backend.dto.UserDTO;
+import lk.viraj.backend.dto.*;
 import lk.viraj.backend.service.impl.UserServiceImpl;
 import lk.viraj.backend.util.JwtUtil;
 import lk.viraj.backend.util.VarList;
@@ -158,12 +155,15 @@ public class AuthController {
             userService.saveUser(user);  // Save new user
         }
 
+        ProfileDTO profileDTO = userService.convertToProfileDTO(user);
+
         // Generate a JWT token for your system (for session management)
         String jwtToken = jwtUtil.generateToken(user);
 
         String redirectUrl = UriComponentsBuilder.fromUriString("http://localhost:63342/Digital%20Art%20Gallery/FrontEnd/index.html")
                 .queryParam("jwtToken", jwtToken)
                 .queryParam("accessToken", accessTokenGoogle)
+                .queryParam("profile", profileDTO)
                 .build()
                 .toUriString();
 

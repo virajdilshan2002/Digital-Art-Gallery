@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    loadProfile("admin");
+    loadNavProfile("admin");
 });
 
 $('#logOutBtn').click(function () {

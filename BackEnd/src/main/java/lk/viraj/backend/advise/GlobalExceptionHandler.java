@@ -30,12 +30,12 @@ public class GlobalExceptionHandler {
                 "Validation Failed",
                 errors
         );
-        System.out.println(errors);
         return new ResponseEntity<>(responseDTO, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<ResponseDTO> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex) {
+        System.out.println("MaxUploadSizeExceededException: " + ex.getMessage());
         ResponseDTO responseDTO = new ResponseDTO(
                 HttpStatus.EXPECTATION_FAILED.value(),
                 "The uploaded file exceeds the maximum allowed size",

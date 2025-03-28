@@ -1,3 +1,9 @@
+let jwtToken;
+
+$(document).ready(function () {
+    jwtToken = localStorage.getItem('jwtToken');
+})
+
 $(document).ajaxStart(function () {
     $("#loading").fadeIn();
 }).ajaxStop(function () {
@@ -13,7 +19,6 @@ function showAlert(icon, title, text) {
         backdrop: "rgba(0,0,0,0.8)",
     });
 }
-
 
 function showAlertThenRedirect(icon, title, text, url) {
     Swal.fire({
@@ -31,12 +36,11 @@ function showAlertThenRedirect(icon, title, text, url) {
 function logout() {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('profile');
     window.location.href = 'index.html';
 }
 
-function loadProfile(role) {
-    //check if token is present
-    const jwtToken = localStorage.getItem('jwtToken')
+function loadNavProfile(role) {
     if (jwtToken === null) {
         window.location.href = 'index.html';
     } else {
@@ -48,8 +52,8 @@ function loadProfile(role) {
             success: function (res) {
                 let name = res.data.name;
                 $('#userName').text(name);
-                $('#profileLogo').attr('src', res.data.imagePath);
-                $('#profileName').text(name);
+                $('#navProfileLogo').attr('src', res.data.imagePath);
+                $('#navProfileName').text(name);
             },
             error: function (error) {
                 showAlertThenRedirect(
@@ -60,6 +64,41 @@ function loadProfile(role) {
             }
         })
     }
+}
+
+function navUserProfile() {
+    loadNavProfile("user")
+}
+
+function navAdminProfile() {
+    loadNavProfile("admin")
+}
+
+function loadProfileData() {
+    $.ajax({
+        url: `http://localhost:8080/api/v1/user/profile`,
+        type: `GET`,
+        headers: {"Authorization": "Bearer " + jwtToken},
+        success: function (res) {
+            localStorage.setItem("profile", JSON.stringify(res.data));
+        },
+        error: function (error) {
+            showAlertThenRedirect("warning", "Warning!", "Cannot load profile data!", "index.html");
+        }
+    })
+}
+
+function changePhoto(prevImage, fileInput) {
+    fileInput.on('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                prevImage.attr('src', e.target.result); // Set the image preview
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 }
 
 function checkXHR(xhr) {

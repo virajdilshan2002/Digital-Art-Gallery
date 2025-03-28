@@ -1,5 +1,6 @@
 package lk.viraj.backend.service.impl;
 
+import lk.viraj.backend.dto.ProfileDTO;
 import lk.viraj.backend.dto.UserDTO;
 import lk.viraj.backend.entity.User;
 import lk.viraj.backend.repo.UserRepository;
@@ -104,5 +105,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             userRepository.save(modelMapper.map(userDTO, User.class));
             return VarList.Created;
         }
+    }
+
+    @Override
+    public ProfileDTO convertToProfileDTO(UserDTO user) {
+        return modelMapper.map(user, ProfileDTO.class);
     }
 }
