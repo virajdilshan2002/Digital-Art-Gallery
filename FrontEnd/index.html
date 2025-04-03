@@ -137,11 +137,19 @@
 <script src="js/util.js"></script>
 <script>
     $(document).ready(function () {
-        let jwtToken;
+        let urlParams = new URLSearchParams(window.location.search);
+        let newJwtToken = urlParams.get("jwtToken");
+        let newAccessToken = urlParams.get("accessToken");
+
+        if (newJwtToken) {
+            localStorage.setItem("jwtToken", newJwtToken);
+            localStorage.setItem("accessToken", newAccessToken);
+        }
 
         function retrieveAccount() {
             //check if token is present
-            jwtToken = localStorage.getItem('jwtToken')
+            let jwtToken = localStorage.getItem('jwtToken');
+            console.log(jwtToken)
 
                 if (jwtToken !== null){
                     $.ajax({
@@ -175,16 +183,7 @@
     })
 </script>
 <script>
-    let urlParams = new URLSearchParams(window.location.search);
-    let newJwtToken = urlParams.get("jwtToken");
-    let newAccessToken = urlParams.get("accessToken");
-    let newProfileData = urlParams.get("profile");
 
-    if (newJwtToken) {
-        localStorage.setItem("jwtToken", newJwtToken);
-        localStorage.setItem("accessToken", newAccessToken);
-        localStorage.setItem("profile", newProfileData);
-    }
 </script>
 </body>
 </html>

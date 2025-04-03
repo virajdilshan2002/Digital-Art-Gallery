@@ -35,6 +35,6 @@ public class User  {
     private String nic;
     private String role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Item> items;
 }

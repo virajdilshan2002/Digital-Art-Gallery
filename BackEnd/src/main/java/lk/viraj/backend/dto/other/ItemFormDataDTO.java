@@ -15,9 +15,9 @@ import java.math.BigDecimal;
 @ToString
 public class ItemFormDataDTO {
     private String name;
-    private MultipartFile image;
+    private MultipartFile itemImage;
     private String description;
-    private String categoryName;
+    private String categoryId;
     private BigDecimal price;
     private int qty;
 }

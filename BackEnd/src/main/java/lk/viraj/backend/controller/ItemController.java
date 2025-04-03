@@ -17,6 +17,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.annotation.MultipartConfig;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "api/v1/item")
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024,
@@ -57,10 +59,10 @@ public class ItemController {
         UserDTO userDTO = userService.getUserByToken(authorization.substring(7));
 
         //get category using category name
-        CategoryDTO categoryDTO = categoryService.searchCategory(itemFormDataDTO.getCategoryName());
+        CategoryDTO categoryDTO = categoryService.searchById(itemFormDataDTO.getCategoryId());
 
         //save image on DIRECTORY
-        String path = fileStorageService.saveItemImage(itemFormDataDTO.getImage());
+        String path = fileStorageService.saveItemImage(itemFormDataDTO.getItemImage());
 
         //convert ItemFormDataDTO to ItemDTO
         ItemDTO itemDTO = itemService.convertToItemDTO(itemFormDataDTO, userDTO, categoryDTO, path);
@@ -69,5 +71,26 @@ public class ItemController {
         int status = itemService.saveItem(itemDTO);
 
         return ResponseEntity.ok(new ResponseDTO(200, "Data received successfully", status));
+    }
+
+    @GetMapping(path = "/getAll")
+    public ResponseEntity<ResponseDTO> getAll() {
+        return ResponseEntity.ok(new ResponseDTO(200, "Data received successfully", itemService.getAllItems()));
+    }
+
+    @GetMapping(path = "/ownedItemsToUser")
+    public ResponseEntity<ResponseDTO> ownedItemsToUser(@RequestHeader("Authorization") String authorization) {
+        UserDTO userDTO = userService.getUserByToken(authorization.substring(7));
+
+        List<ItemDTO> itemDTOS = itemService.getOwnedItemsByUser(userDTO);
+
+        return ResponseEntity.ok(new ResponseDTO(200, "Data received successfully", itemDTOS));
+    }
+
+    @DeleteMapping(path = "/delete", params = "iid")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
+    public ResponseEntity<ResponseDTO> delete(@RequestParam("iid") String itemId) {
+        boolean isDeleted = itemService.deleteItemById(itemId);
+        return ResponseEntity.ok(new ResponseDTO(200, "Item Deleted successfully", isDeleted));
     }
 }

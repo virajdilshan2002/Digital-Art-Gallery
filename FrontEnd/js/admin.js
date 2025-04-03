@@ -1,58 +1,43 @@
-$(document).ready(function () {
-    loadNavProfile("admin");
-});
+
+
+function addCategory() {
+    $.ajax({
+        url: 'http://localhost:8080/api/v1/category/save',
+        type: 'POST',
+        contentType: "application/json",
+        data: JSON.stringify({
+            "name": $('#categoryName').val(),
+            "description": $('#categoryDesc').val()
+        }),
+        success: function (response) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Category Added Successfully',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            $('#addCategoryModal').modal('hide');
+            $('#AddCategoryForm')[0].reset();
+        },
+        error: function (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error Adding Category',
+                text: error.responseText
+            });
+        }
+    });
+
+}
 
 $('#logOutBtn').click(function () {
     logout()
+
 });
 
-$('#image').on('change', function(event) {
-    const file = $(this).prop('files')[0];
-    const preview = $('#photoPreview');
-
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            preview.attr('src', e.target.result);
-        }
-        reader.readAsDataURL(file);
-    } else {
-        preview.css('display', 'none');
-    }
+$('#addCategoryBtn').on('click', function () {
+    addCategory();
 });
 
-$('#postArtBtn').click(function () {
-    let jwtToken = localStorage.getItem('jwtToken');
-    const formData = new FormData($('#postArtForm')[0]);
 
-    $.ajax({
-        url: 'http://localhost:8080/api/v1/item/save',
-        type: 'POST',
-        data: formData,
-        cache: false,
-        processData: false,
-        contentType: false,
-        headers: {
-            Authorization: 'Bearer ' + jwtToken
-        },
-        success: function (response) {
-            Swal.fire(
-                'Success!',
-                'Your art has been posted successfully!',
-                'success'
-            ).then(() => {
-                $('#postArtForm')[0].reset();
-                $('#photoPreview').attr('src', 'assets/img/items/3.jpg');
-                $('#artPostModal').modal('hide');
-            });
-        },
 
-        error: function (xhr, status, error) {
-            Swal.fire({
-                icon: "warning",
-                title: "Error!",
-                text: "Something went wrong, please try again!"
-            })
-        }
-    });
-});

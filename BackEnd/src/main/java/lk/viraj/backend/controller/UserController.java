@@ -1,6 +1,5 @@
 package lk.viraj.backend.controller;
 
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.validation.Valid;
 import lk.viraj.backend.dto.AuthDTO;
 import lk.viraj.backend.dto.ProfileDTO;
@@ -18,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("api/v1/user")
@@ -39,12 +37,13 @@ public class UserController {
     @GetMapping(path = "/retrieve")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<ResponseDTO> retrieveUser(@RequestHeader("Authorization") String authorization) {
+        System.out.println("dfghjkl;");
         String role = userService.getUserRoleByToken(authorization.substring(7));
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(VarList.OK, "retrieved success", role));
     }
 
     @GetMapping(path = "/profile")
-    @PreAuthorize("hasAnyAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<ResponseDTO> getProfile(@RequestHeader("Authorization") String authorization) {
         UserDTO user = userService.getUserByToken(authorization.substring(7));
         ProfileDTO profileDTO = userService.convertToProfileDTO(user);
@@ -57,14 +56,18 @@ public class UserController {
 
             UserDTO user = userService.getUserByToken(authorization.substring(7));
 
+            if (user.getImagePath() != null) {
+                //remove the old image
+                fileStorageService.deleteImage(user.getImagePath());
+            }
+
             String savedPath = fileStorageService.saveUserProfileImage(imageUploadDTO.getImageFile());
 
             user.setImagePath(savedPath);
 
             userService.updateUser(user);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(VarList.Created, "Success", user));
-
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(VarList.Created, "Success", savedPath));
     }
 
     @PostMapping("/register")

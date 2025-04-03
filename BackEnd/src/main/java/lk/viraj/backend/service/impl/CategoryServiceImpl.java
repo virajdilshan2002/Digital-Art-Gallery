@@ -7,8 +7,11 @@ import lk.viraj.backend.repo.CategoryRepository;
 import lk.viraj.backend.service.CategoryService;
 import lk.viraj.backend.util.VarList;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -29,5 +32,19 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO searchCategory(String name) {
         Category category = categoryRepository.findByName(name);
         return modelMapper.map(category, CategoryDTO.class);
+    }
+
+    @Transactional
+    @Override
+    public CategoryDTO searchById(String id) {
+        Category category = categoryRepository.getReferenceById(id);
+        return modelMapper.map(category, CategoryDTO.class);
+    }
+
+    @Override
+    public List<CategoryDTO> getAllCategory() {
+        List<Category> categoryList = categoryRepository.findAll();
+        return modelMapper.map(categoryList, new TypeToken<List<CategoryDTO>>() {
+        }.getType());
     }
 }

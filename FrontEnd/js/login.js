@@ -14,7 +14,7 @@ $(document).ready(function () {
                 "password": password
             }),
             success: function (response) {
-                localStorage.setItem("token", response.data.jwtToken);
+                localStorage.setItem("jwtToken", response.data.token);
 
                 if (response.data.user.role === "ADMIN") {
                     showAlertThenRedirect("success","Success","Login Successful!", "admin.html")
@@ -27,7 +27,6 @@ $(document).ready(function () {
             },
         });
     });
-
 
 
 });

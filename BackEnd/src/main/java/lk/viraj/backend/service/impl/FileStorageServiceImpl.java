@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -36,6 +37,16 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Override
     public String saveUserProfileImage(MultipartFile image) {
         return saveImage(USER_PROFILE_UPLOAD_DIR, USERS_DIR, image);
+    }
+
+    @Override
+    public void deleteImage(String imagePath) {
+        try {
+            Path path = Paths.get("C:\\Users\\asus\\Desktop\\Digital Art Gallery\\FrontEnd\\" + imagePath);
+            Files.delete(path);
+        } catch (Exception e) {
+            System.err.println("Failed to delete image: " + e.getMessage());
+        }
     }
 
     private String saveImage(String savingPath, String dir, MultipartFile image) {

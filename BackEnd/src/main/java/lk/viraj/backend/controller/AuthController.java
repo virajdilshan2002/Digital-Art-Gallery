@@ -1,5 +1,7 @@
 package lk.viraj.backend.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
@@ -163,7 +165,6 @@ public class AuthController {
         String redirectUrl = UriComponentsBuilder.fromUriString("http://localhost:63342/Digital%20Art%20Gallery/FrontEnd/index.html")
                 .queryParam("jwtToken", jwtToken)
                 .queryParam("accessToken", accessTokenGoogle)
-                .queryParam("profile", profileDTO)
                 .build()
                 .toUriString();
 

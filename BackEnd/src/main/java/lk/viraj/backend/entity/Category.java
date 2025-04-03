@@ -18,12 +18,13 @@ import java.util.UUID;
 @Table(name = "category")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cid")
-    private UUID cid;
+    private int cid;
     @Column(unique = true)
     private String name;
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private String description;
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Item> items;
 
 }

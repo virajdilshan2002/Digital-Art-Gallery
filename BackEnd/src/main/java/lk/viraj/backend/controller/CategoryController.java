@@ -21,4 +21,9 @@ public class CategoryController {
         int status = categoryService.saveCategory(categoryDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(VarList.Created, "Category Saved!", status));
     }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<ResponseDTO> getAllCategory() {
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(VarList.OK, "Category List loaded success!", categoryService.getAllCategory()));
+    }
 }

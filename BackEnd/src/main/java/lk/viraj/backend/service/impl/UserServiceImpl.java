@@ -81,34 +81,31 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public int saveUser(UserDTO userDTO) {
-        if (userRepository.existsByEmail(userDTO.getEmail())) {
-            return VarList.Not_Acceptable;
-        } else {
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-            userDTO.setRole("USER");
-            userRepository.save(modelMapper.map(userDTO, User.class));
-            return VarList.Created;
-        }
+        return saveSysUser(userDTO, "USER");
     }
-
 
     @Override
     public int saveAdmin(UserDTO userDTO) {
+        return saveSysUser(userDTO, "ADMIN");
+    }
+
+    public int saveSysUser(UserDTO userDTO, String role) {
         if (userRepository.existsByEmail(userDTO.getEmail())) {
             return VarList.Not_Acceptable;
         } else {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-            userDTO.setImagePath(null);
-            userDTO.setRole("ADMIN");
+            userDTO.setRole(role);
             userRepository.save(modelMapper.map(userDTO, User.class));
             return VarList.Created;
         }
     }
 
+
     @Override
     public ProfileDTO convertToProfileDTO(UserDTO user) {
-        return modelMapper.map(user, ProfileDTO.class);
+        ProfileDTO profileDTO = modelMapper.map(user, ProfileDTO.class);
+        profileDTO.setUid(String.valueOf(user.getUid()));
+        return profileDTO;
     }
 }

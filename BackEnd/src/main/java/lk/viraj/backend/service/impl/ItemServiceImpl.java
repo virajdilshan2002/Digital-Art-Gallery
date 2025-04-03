@@ -15,8 +15,12 @@ import lk.viraj.backend.repo.UserRepository;
 import lk.viraj.backend.service.ItemService;
 import lk.viraj.backend.util.VarList;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -43,9 +47,9 @@ public class ItemServiceImpl implements ItemService {
         User user = userRepository.findByEmail(itemDTO.getUser().getEmail());
         Category category = categoryRepository.findByName(itemDTO.getCategory().getName());
 
-        // Reattach the User and Category entities to the current session
+        /*// Reattach the User and Category entities to the current session
         user = entityManager.merge(user);
-        category = entityManager.merge(category);
+        category = entityManager.merge(category);*/
 
         // Map ItemDTO to Item entity
         Item item = modelMapper.map(itemDTO, Item.class);
@@ -61,8 +65,31 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDTO convertToItemDTO(ItemFormDataDTO itemFormDataDTO, UserDTO userDTO, CategoryDTO categoryDTO, String path) {
-        ItemDTO itemDTO = new ItemDTO(itemFormDataDTO.getName(), itemFormDataDTO.getDescription(), path, itemFormDataDTO.getPrice(), categoryDTO, userDTO);
-        return itemDTO;
+        return new ItemDTO(itemFormDataDTO.getName(), path, itemFormDataDTO.getDescription(), itemFormDataDTO.getPrice(), itemFormDataDTO.getQty(), categoryDTO, userDTO);
+    }
+
+    @Override
+    public List<ItemDTO> getAllItems() {
+        List<Item> itemList = itemRepository.findAll();
+        return modelMapper.map(itemList, new TypeToken<List<ItemDTO>>() {}.getType());
+    }
+
+    @Override
+    public List<ItemDTO> getOwnedItemsByUser(UserDTO userDTO) {
+        User user = modelMapper.map(userDTO, User.class);
+
+        String jpql = "SELECT i FROM Item i WHERE i.user = :user";
+        List<Item> items = entityManager.createQuery(jpql, Item.class)
+                .setParameter("user", user)
+                .getResultList();
+
+        return modelMapper.map(items, new TypeToken<List<ItemDTO>>() {}.getType());
+    }
+
+    @Override
+    public boolean deleteItemById(String itemId) {
+        itemRepository.deleteById(UUID.fromString(itemId));
+        return itemRepository.existsById(UUID.fromString(itemId));
     }
 
 }

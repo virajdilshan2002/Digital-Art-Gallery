@@ -1,8 +1,3 @@
-let jwtToken;
-
-$(document).ready(function () {
-    jwtToken = localStorage.getItem('jwtToken');
-})
 
 $(document).ajaxStart(function () {
     $("#loading").fadeIn();
@@ -40,20 +35,26 @@ function logout() {
     window.location.href = 'index.html';
 }
 
-function loadNavProfile(role) {
+function loadNavProfile() {
+    let jwtToken = localStorage.getItem("jwtToken");
     if (jwtToken === null) {
         window.location.href = 'index.html';
     } else {
         //get user profile
         $.ajax({
-            url: `http://localhost:8080/api/v1/${role}/profile`,
+            url: `http://localhost:8080/api/v1/user/profile`,
             type: 'GET',
             headers: {"Authorization": "Bearer " + jwtToken},
             success: function (res) {
-                let name = res.data.name;
-                $('#userName').text(name);
-                $('#navProfileLogo').attr('src', res.data.imagePath);
-                $('#navProfileName').text(name);
+                // localStorage.setItem("profile", JSON.stringify(res.data));
+                let profile = res.data;
+                $('#userName').text(profile.name);
+                if (profile.imagePath === null){
+                    $('#navProfileLogo').attr('src', 'assets/img/illustrations/user.svg');
+                } else {
+                    $('#navProfileLogo').attr('src', profile.imagePath);
+                }
+                $('#navProfileName').text(profile.name);
             },
             error: function (error) {
                 showAlertThenRedirect(
@@ -66,15 +67,8 @@ function loadNavProfile(role) {
     }
 }
 
-function navUserProfile() {
-    loadNavProfile("user")
-}
-
-function navAdminProfile() {
-    loadNavProfile("admin")
-}
-
 function loadProfileData() {
+    let jwtToken = localStorage.getItem("jwtToken");
     $.ajax({
         url: `http://localhost:8080/api/v1/user/profile`,
         type: `GET`,
@@ -86,6 +80,36 @@ function loadProfileData() {
             showAlertThenRedirect("warning", "Warning!", "Cannot load profile data!", "index.html");
         }
     })
+}
+
+function setNavigations() {
+    let jwtToken = localStorage.getItem("jwtToken");
+    $.ajax({
+        url: `http://localhost:8080/api/v1/user/profile`,
+        type: `GET`,
+        headers: {"Authorization": "Bearer " + jwtToken},
+        success: function (res) {
+            let profile = res.data;
+
+            if (profile.role === "ADMIN") {
+                $('#nav-logo-link').attr('href', 'admin.html');
+                $('#nav-dashboard').attr('href', 'admin.html');
+                $('#nav-arts').attr('href', 'admin-items.html');
+                $('#nav-contact').attr('href', 'admin-contact.html');
+                $('#nav-faq').attr('href', 'admin-faq.html');
+            } else if (profile.role === "USER") {
+                $('#nav-logo-link').attr('href', 'user.html');
+                $('#nav-dashboard').attr('href', 'user.html');
+                $('#nav-arts').attr('href', 'user-items.html');
+                $('#nav-contact').attr('href', 'contact.html');
+                $('#nav-faq').attr('href', 'faq.html');
+            }
+        },
+        error: function (error) {
+            showAlertThenRedirect("warning", "Warning!", "Cannot load profile data!", "index.html");
+        }
+    })
+
 }
 
 function changePhoto(prevImage, fileInput) {

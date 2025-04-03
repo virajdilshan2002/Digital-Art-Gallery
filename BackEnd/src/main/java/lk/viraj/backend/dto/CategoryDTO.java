@@ -1,40 +1,16 @@
 package lk.viraj.backend.dto;
 
-import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@ToString
 public class CategoryDTO {
-    private UUID cid;
+    private int cid;
     private String name;
-
-    public CategoryDTO() {
-    }
-
-    public CategoryDTO(UUID cid, String name) {
-        this.cid = cid;
-        this.name = name;
-    }
-
-    public UUID getCid() {
-        return cid;
-    }
-
-    public void setCid(UUID cid) {
-        this.cid = cid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "CategoryDTO{" +
-                "cid=" + cid +
-                ", name='" + name + '\'' +
-                '}';
-    }
+    private String description;
 }

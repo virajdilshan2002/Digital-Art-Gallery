@@ -24,6 +24,7 @@ public class Item {
     private String description;
     private String image;
     private BigDecimal price;
+    private int qty;
 
     @ManyToOne
     @JoinColumn(name = "cid")

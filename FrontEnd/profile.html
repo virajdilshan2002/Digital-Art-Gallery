@@ -26,17 +26,17 @@
         <img id="siteLogo" src="assets/img/illustrations/quill-pen.svg" alt="User Logo"
              class="rounded-circle object-fit-cover me-2" style="width: 40px; height: 40px;">
 
-        <a class="navbar-brand d-flex align-items-center"
-           href="user.html"><span>Digital Art Gallery</span></a>
+        <a id="nav-logo-link" class="navbar-brand d-flex align-items-center"
+           href=""><span>Digital Art Gallery</span></a>
         <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1">
 
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link" href="user.html">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="user-items.html">Arts</a></li>
-                <li class="nav-item"><a class="nav-link" href="">Contact Us</a></li>
-                <li class="nav-item"><a class="nav-link" href="">FAQ</a></li>
+                <li class="nav-item"><a id="nav-dashboard" class="nav-link" href="">Dashboard</a></li>
+                <li class="nav-item"><a id="nav-arts" class="nav-link" href="">Arts</a></li>
+                <li class="nav-item"><a id="nav-contact" class="nav-link" href="">Contact Us</a></li>
+                <li class="nav-item"><a id="nav-faq" class="nav-link" href="">FAQ</a></li>
             </ul>
             <div class="dropdown">
                 <div class="d-flex align-items-center profile-dropdown" data-bs-toggle="dropdown"
@@ -59,8 +59,8 @@
     </div>
 </nav>
 <div class="container mt-5 pt-5">
-    <div class="card p-4 shadow">
-        <form method="post">
+    <div class="card px-4 shadow py-5">
+        <form class="py-5">
             <div class="row">
                 <!-- Profile Image -->
                 <div class="col-md-4 text-center">
@@ -105,17 +105,17 @@
                 <!-- Work & Skills -->
                 <div class="col-md-4">
                     <div class="p-3 border rounded">
-                        <h6 class="fw-bold">Pets</h6>
+                        <h6 class="fw-bold">My Arts</h6>
                         <a href="#" class="d-block text-decoration-none">Website Link</a>
                         <a href="#" class="d-block text-decoration-none">Bootsnipp Profile</a>
                         <a href="#" class="d-block text-decoration-none">Bootply Profile</a>
 
-                        <h6 class="fw-bold mt-3">Skills</h6>
+                        <!--<h6 class="fw-bold mt-3">Skills</h6>
                         <span class="badge bg-primary me-1">Web Designer</span>
                         <span class="badge bg-success me-1">Web Developer</span>
                         <span class="badge bg-warning text-dark me-1">WordPress</span>
                         <span class="badge bg-info text-dark me-1">WooCommerce</span>
-                        <span class="badge bg-secondary me-1">PHP</span>
+                        <span class="badge bg-secondary me-1">PHP</span>-->
                     </div>
                 </div>
 
@@ -141,8 +141,8 @@
                                 <div id="userProfilePhone" class="col-md-6">123 456 7890</div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col-md-6 fw-bold">Profession</div>
-                                <div class="col-md-6">Web Developer and Designer</div>
+                                <div class="col-md-6 fw-bold">Home Town</div>
+                                <div id="userProfileAddress" class="col-md-6">Address</div>
                             </div>
                         </div>
 
@@ -191,19 +191,48 @@
         let changeProfileImageInput = $('#changeProfileImageInput');
         let userProfileImage = $('#userProfileImage');
         let saveProfileImageBtn = $('#saveProfileImageBtn');
+        let role;
 
         function setProfileData() {
-            loadProfileData()
+            let jwtToken = localStorage.getItem("jwtToken");
 
-            const profile = JSON.parse(localStorage.getItem('profile'));
+            $.ajax({
+                url: `http://localhost:8080/api/v1/user/profile`,
+                type: 'GET',
+                headers: {"Authorization": "Bearer " + jwtToken},
+                success: function (res) {
+                    let profile = res.data;
+                    $('#userId').text(profile.uid);
+                    $('#userProfileId').text(profile.uid);
+                    $('#userProfileName').text(profile.name);
+                    $('#userProfileEmail').text(profile.email);
+                    if (profile.contact === null){
+                        $('#userProfilePhone').text("Not Provided");
+                    } else {
+                        $('#userProfilePhone').text(profile.contact);
+                    }
+                    if (profile.address === null){
+                        $('#userProfileAddress').text("Not Provided");
+                    } else {
+                        $('#userProfileAddress').text(profile.address);
+                    }
+                    if (profile.imagePath === null){
+                        userProfileImage.attr('src', 'assets/img/illustrations/user.svg');
+                    } else {
+                        userProfileImage.attr('src', profile.imagePath);
+                    }
+                    role = profile.role;
+                },
+                error: function (error) {
+                    showAlertThenRedirect(
+                        "error",
+                        "Oops...",
+                        "Something went wrong!",
+                        "index.html")
+                }
+            })
 
-            $('#userId').text(profile.uid);
-            $('#userProfileId').text(profile.uid);
-            $('#userProfileName').text(profile.name);
-            $('#userProfileEmail').text(profile.email);
-            $('#userProfilePhone').text(profile.contact);
-            $('#userProfileAddress').text(profile.address);
-            $('#userProfileImage').attr('src', profile.imagePath);
+
         }
 
         $('#logOutBtn').click(function () {
@@ -211,8 +240,8 @@
         });
 
         changeProfileImageBtn.click(function () {
-            const fileInput = $(this).next();
-            fileInput.click();
+            // const fileInput = $(this).next();
+            changeProfileImageInput.click();
         })
 
         changeProfileImageInput.on('change', function (event) {
@@ -257,7 +286,8 @@
                         timer: 2000,
                         backdrop: "rgba(0,0,0,0.8)",
                     }).then(() => {
-                        location.reload()
+                        loadNavProfile()
+                        setProfileData()
                     });
                 },
                 error: function (xhr, error) {
@@ -268,15 +298,16 @@
                         timer: 2000,
                         backdrop: "rgba(0,0,0,0.8)",
                     }).then(() => {
-                        location.reload()
+                        loadNavProfile()
+                        setProfileData()
                     });
                 }
             })
         })
 
-        navUserProfile()
+        loadNavProfile()
         setProfileData()
-
+        setNavigations()
     });
 </script>
 </body>
