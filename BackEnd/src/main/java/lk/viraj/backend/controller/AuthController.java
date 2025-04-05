@@ -9,9 +9,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lk.viraj.backend.dto.*;
+import lk.viraj.backend.service.MailService;
 import lk.viraj.backend.service.impl.UserServiceImpl;
 import lk.viraj.backend.util.JwtUtil;
 import lk.viraj.backend.util.VarList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,6 +40,9 @@ public class AuthController {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
     private final UserServiceImpl userService;
+
+    @Autowired
+    private MailService mailService;
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String clientId;
@@ -167,6 +172,8 @@ public class AuthController {
                 .queryParam("accessToken", accessTokenGoogle)
                 .build()
                 .toUriString();
+
+        mailService.sendAnEmail(email, "Welcome to Digital Art Gallery!");
 
         return new RedirectView(redirectUrl);
     }
