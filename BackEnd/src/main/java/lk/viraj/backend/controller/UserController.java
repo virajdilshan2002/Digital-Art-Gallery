@@ -7,6 +7,7 @@ import lk.viraj.backend.dto.ResponseDTO;
 import lk.viraj.backend.dto.UserDTO;
 import lk.viraj.backend.dto.other.ImageUploadDTO;
 import lk.viraj.backend.service.FileStorageService;
+import lk.viraj.backend.service.MailService;
 import lk.viraj.backend.service.UserService;
 import lk.viraj.backend.util.JwtUtil;
 import lk.viraj.backend.util.VarList;
@@ -24,14 +25,16 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private final FileStorageService fileStorageService;
+    private final MailService mailService;
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     //constructor injection
-    public UserController(UserService userService, JwtUtil jwtUtil, FileStorageService fileStorageService) {
+    public UserController(UserService userService, JwtUtil jwtUtil, FileStorageService fileStorageService, MailService mailService) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
         this.fileStorageService = fileStorageService;
+        this.mailService = mailService;
     }
 
     @GetMapping(path = "/retrieve")
@@ -80,6 +83,7 @@ public class UserController {
                     AuthDTO authDTO = new AuthDTO();
                     authDTO.setUser(userDTO);
                     authDTO.setToken(token);
+                    mailService.sendRegisteredEmail(userDTO.getName(), userDTO.getEmail(), "Registered Successfully!");
                     return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(VarList.Created, "Success", authDTO));
                 }
                 case VarList.Not_Acceptable -> {

@@ -1,19 +1,18 @@
 package lk.viraj.backend.dto.other;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@ToString
+@Getter
+@Setter
 public class ItemFormDataDTO {
+    private UUID iid;
     private String name;
     private MultipartFile itemImage;
     private String description;

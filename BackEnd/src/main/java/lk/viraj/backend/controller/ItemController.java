@@ -10,6 +10,7 @@ import lk.viraj.backend.service.FileStorageService;
 import lk.viraj.backend.service.ItemService;
 import lk.viraj.backend.service.UserService;
 import lk.viraj.backend.util.JwtUtil;
+import lk.viraj.backend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -92,5 +93,31 @@ public class ItemController {
     public ResponseEntity<ResponseDTO> delete(@RequestParam("iid") String itemId) {
         boolean isDeleted = itemService.deleteItemById(itemId);
         return ResponseEntity.ok(new ResponseDTO(200, "Item Deleted successfully", isDeleted));
+    }
+
+    @PutMapping(path = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
+    public ResponseEntity<ResponseDTO> update(@RequestHeader("Authorization") String authorization,
+                                              @ModelAttribute() ItemFormDataDTO itemFormDataDTO) {
+        ItemDTO itemDTO = itemService.getItemById(itemFormDataDTO.getIid());
+
+        if (itemDTO.getImage() != null) {
+            //delete old image
+            fileStorageService.deleteImage(itemDTO.getImage());
+        }
+
+        String savedPath = fileStorageService.saveItemImage(itemFormDataDTO.getItemImage());
+
+        //update image path
+        itemDTO.setImage(savedPath);
+
+        itemDTO = itemService.setUpdatedDetails(itemDTO, itemFormDataDTO);
+
+        int status = itemService.saveItem(itemDTO);
+
+        if (status == VarList.Created) {
+            return ResponseEntity.ok(new ResponseDTO(VarList.OK, "Item Deleted successfully", itemDTO));
+        }
+        return ResponseEntity.ok(new ResponseDTO(VarList.Bad_Request, "Item Deletion Failed!", itemDTO));
     }
 }

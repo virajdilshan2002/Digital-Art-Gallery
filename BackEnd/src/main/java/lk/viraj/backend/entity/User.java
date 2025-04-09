@@ -1,10 +1,7 @@
 package lk.viraj.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -13,8 +10,8 @@ import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@ToString
+@Getter
+@Setter
 
 @Entity
 @Table(name = "users")

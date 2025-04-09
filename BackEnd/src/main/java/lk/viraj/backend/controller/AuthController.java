@@ -8,6 +8,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import jakarta.servlet.http.HttpServletResponse;
 import lk.viraj.backend.dto.*;
 import lk.viraj.backend.service.MailService;
 import lk.viraj.backend.service.impl.UserServiceImpl;
@@ -28,6 +29,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -141,7 +143,7 @@ public class AuthController {
     }
 
     @GetMapping("/oauth2Login")
-    public RedirectView oauth2Login(@RequestParam("code") String code) {
+    public RedirectView oauth2Login(@RequestParam("code") String code) throws IOException {
         String accessTokenGoogle = getOauthAccessTokenGoogle(code);
         JsonObject profileDetailsGoogle = getProfileDetailsGoogle(accessTokenGoogle);
 
@@ -151,7 +153,9 @@ public class AuthController {
         String picture = profileDetailsGoogle.get("picture").getAsString();
 
         UserDTO user = userService.searchUser(email);
+        boolean isNew = false;
         if (user == null) {
+            isNew = true;
             user = new UserDTO();
             user.setEmail(email);
             user.setName(name);
@@ -167,13 +171,18 @@ public class AuthController {
         // Generate a JWT token for your system (for session management)
         String jwtToken = jwtUtil.generateToken(user);
 
-        String redirectUrl = UriComponentsBuilder.fromUriString("http://localhost:63342/Digital%20Art%20Gallery/FrontEnd/index.html")
+        String redirectUrl = UriComponentsBuilder
+                .fromUriString("http://localhost:63342/Digital%20Art%20Gallery/FrontEnd/index.html")
                 .queryParam("jwtToken", jwtToken)
                 .queryParam("accessToken", accessTokenGoogle)
                 .build()
                 .toUriString();
 
-        mailService.sendAnEmail(email, "Welcome to Digital Art Gallery!");
+        if (isNew) {
+            mailService.sendLoggedInEmail(name, email, "Login Alert!");
+        } else {
+            mailService.sendRegisteredEmail(name, email, "Registered Successfully!");
+        }
 
         return new RedirectView(redirectUrl);
     }

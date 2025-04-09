@@ -6,6 +6,7 @@ import lk.viraj.backend.dto.UserDTO;
 import lk.viraj.backend.dto.other.ItemFormDataDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ItemService {
     int saveItem(ItemDTO itemDTO);
@@ -17,4 +18,8 @@ public interface ItemService {
     List<ItemDTO> getOwnedItemsByUser(UserDTO userDTO);
 
     boolean deleteItemById(String itemId);
+
+    ItemDTO getItemById(UUID iid);
+
+    ItemDTO setUpdatedDetails(ItemDTO itemDTO, ItemFormDataDTO itemFormDataDTO);
 }

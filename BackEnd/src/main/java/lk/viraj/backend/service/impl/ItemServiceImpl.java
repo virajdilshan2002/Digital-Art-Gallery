@@ -1,6 +1,7 @@
 package lk.viraj.backend.service.impl;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lk.viraj.backend.dto.CategoryDTO;
 import lk.viraj.backend.dto.ItemDTO;
@@ -90,6 +91,23 @@ public class ItemServiceImpl implements ItemService {
     public boolean deleteItemById(String itemId) {
         itemRepository.deleteById(UUID.fromString(itemId));
         return itemRepository.existsById(UUID.fromString(itemId));
+    }
+
+    @Override
+    public ItemDTO getItemById(UUID iid) {
+        Item item = itemRepository.findById(iid)
+                .orElseThrow(() -> new EntityNotFoundException("Item not found"));
+
+        return modelMapper.map(item, ItemDTO.class);
+    }
+
+    @Override
+    public ItemDTO setUpdatedDetails(ItemDTO itemDTO, ItemFormDataDTO itemFormDataDTO) {
+        ItemDTO updateItemDTO = modelMapper.map(itemFormDataDTO, ItemDTO.class);
+        updateItemDTO.setImage(itemDTO.getImage());
+        updateItemDTO.setUser(itemDTO.getUser());
+        updateItemDTO.setCategory(itemDTO.getCategory());
+        return updateItemDTO;
     }
 
 }

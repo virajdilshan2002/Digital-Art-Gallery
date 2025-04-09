@@ -235,7 +235,7 @@ $('#myItemsBtn').click(function () {
                     </div>
                     <div class="mt-2">
                         <button class="btn-edit-item btn btn-primary shadow rounded-5 px-4" type="button" 
-                        data-uid="${item.uid}"
+                        data-iid="${item.iid}"
                         data-name="${item.name}"
                         data-image="${item.image}"
                         data-description="${item.description}"
@@ -258,7 +258,7 @@ $('#myItemsBtn').click(function () {
 
 $(document).on("click", ".btn-view-item", function () {
     let item = {
-        uid: $(this).data("uid"),
+        iid: $(this).data("iid"),
         name: $(this).data("name"),
         image: $(this).data("image"),
         description: $(this).data("description"),
@@ -272,7 +272,7 @@ $(document).on("click", ".btn-view-item", function () {
 
 $(document).on("click", ".btn-edit-item", function () {
     let item = {
-        uid: $(this).data("uid"),
+        iid: $(this).data("iid"),
         name: $(this).data("name"),
         image: $(this).data("image"),
         description: $(this).data("description"),
@@ -281,7 +281,6 @@ $(document).on("click", ".btn-edit-item", function () {
     };
 
     editItemModal(item);
-
 });
 
 $(document).on("click", ".btn-delete-item", function () {
@@ -294,11 +293,54 @@ $(document).on("click", ".btn-delete-item", function () {
 });
 
 function editItemModal(item) {
-    $("#editItemTitle").val(item.name);
-    $("#editItemDescription").val(item.description);
-    $("#editItemPrice").val(item.price);
-    $("#editItemImagePreview").attr("src", item.image);
-    $("#editItemQty").val(item.qty);
+    let editItemTitle = $("#editItemTitle");
+    let editItemDescription = $("#editItemDescription");
+    let editItemPrice = $("#editItemPrice");
+    let editItemImagePreview = $("#editItemImagePreview");
+    let editItemQty = $("#editItemQty");
+    let itemId = $("#itemId");
+
+    itemId.val(item.iid)
+    editItemTitle.val(item.name);
+    editItemDescription.val(item.description);
+    editItemPrice.val(item.price);
+    editItemImagePreview.attr("src", item.image);
+    editItemQty.val(item.qty);
+
+    $("#saveChangesEditItemBtn").click(function (){
+        Swal.fire({
+            title: "Save Changes?",
+            text: "This can't be undone.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#f00c36",
+            cancelButtonColor: "#006ecf",
+            confirmButtonText: "Confirm"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let editFormData = new FormData($('#editItemForm')[0]);
+                console.log(editFormData)
+                $.ajax({
+                    url: `http://localhost:8080/api/v1/item/update`,
+                    type: 'PUT',
+                    headers: {Authorization: "Bearer " + localStorage.getItem('jwtToken')},
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    data: editFormData,
+                    success: function (response) {
+                        showAlert("success", "Success!", "Item updated successfully!");
+                        window.location.reload()
+                    },
+                    error: function (error) {
+                        showAlert("error", "Error!", "Failed to update item.");
+                        window.location.reload()
+                    }
+                })
+            }
+        })
+
+    })
 
     $('#editItemModal').modal("show");
 }
@@ -324,7 +366,7 @@ function deleteItem(iid) {
         showCancelButton: true,
         confirmButtonColor: "#9e0018",
         cancelButtonColor: "#63aeff",
-        confirmButtonText: "Register"
+        confirmButtonText: "Delete"
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
