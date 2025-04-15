@@ -23,6 +23,19 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr,error) {
+                if (xhr.responseJSON.code === 401) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: xhr.responseJSON.message
+                    });
+                }else if (xhr.responseJSON.code === 409){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: xhr.responseJSON.message
+                    });
+                }
                 checkXHR(xhr)
             },
         });

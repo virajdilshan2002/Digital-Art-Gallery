@@ -21,7 +21,7 @@ function getAllItemsForBrowse() {
             }
             for (let item of response.data) {
                 itemBrowseContainer.append(`
-                <div class="bg-light" style="width: calc(100% / 4); max-height: 450px;">
+                <div class="bg-light" style="width: calc(100% / 3); max-height: 480px;">
                     <div class="h-50">
                         <img class="w-100 h-100 object-fit-cover" loading="lazy" src="${item.image}" alt="Art"/>
                     </div>
@@ -29,7 +29,7 @@ function getAllItemsForBrowse() {
                         <div>
                             <div>ON SALE</div>
                             <h5>${item.name}</h5>
-                            <p>${item.description}</p>
+                            <p class="overflow-y-scroll" style="height: 50px">${item.description}</p>
                             <p class="text-muted">Posted By: <a href="#">${item.user.name}</a></p>
                         </div>
                         <strong>LKR${item.price}</strong>
@@ -37,7 +37,7 @@ function getAllItemsForBrowse() {
                     <div class="mt-2">
                         <div class="mt-2">
                         <button class="btn-view-item btn btn-dark shadow rounded-5 px-4" type="button" 
-                        data-uid="${item.uid}"
+                        data-iid="${item.iid}"
                         data-name="${item.name}"
                         data-image="${item.image}"
                         data-description="${item.description}"
@@ -220,7 +220,7 @@ $('#myItemsBtn').click(function () {
             }
             for (let item of response.data) {
                 itemBrowseContainer.append(`
-                <div class="bg-light" style="width: calc(100% / 4); max-height: 450px;">
+                <div class="bg-light" style="width: calc(100% / 4); height: 480px;">
                     <div class="h-50">
                         <img class="w-100 h-100 object-fit-cover" loading="lazy" src="${item.image}" alt="Art"/>
                     </div>
@@ -228,7 +228,7 @@ $('#myItemsBtn').click(function () {
                         <div>
                             <div>ON SALE</div>
                             <h5>${item.name}</h5>
-                            <p>${item.description}</p>
+                            <p class="overflow-y-scroll" style="max-height: 50px">${item.description}</p>
                             <p class="text-muted">Posted By: <a href="#">${item.user.name}</a></p>
                         </div>
                         <strong>LKR${item.price}</strong>
@@ -352,6 +352,27 @@ function viewArt(item) {
     $("#itemModalImage").attr("src", item.image);
     $("#itemModalQty").text(item.qty);
     $("#itemModalUser").text(item.username);
+
+    $("#payhere-payment").click(function (e) {
+        $.ajax({
+            url: 'http://localhost:8080/api/v1/payhere/payment-details?id=' + item.iid,
+            type: 'GET',
+            headers: {Authorization: "Bearer " + localStorage.getItem('jwtToken')},
+            success: function (response) {
+                let payment = response.data;
+                payment.sandbox = true;
+                payment.iframe = false;
+
+
+
+                console.log("Sending to PayHere:", payment);
+                payhere.startPayment(payment);
+            },
+            error: function (error) {
+                console.error("Error fetching payment details:", error);
+            }
+        })
+    });
 
     $("#viewItemModal").modal("show");
 }

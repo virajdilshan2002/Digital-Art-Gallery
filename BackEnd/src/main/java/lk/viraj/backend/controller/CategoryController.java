@@ -7,6 +7,7 @@ import lk.viraj.backend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseDTO> saveCategory(@RequestBody CategoryDTO categoryDTO) {
         int status = categoryService.saveCategory(categoryDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(VarList.Created, "Category Saved!", status));

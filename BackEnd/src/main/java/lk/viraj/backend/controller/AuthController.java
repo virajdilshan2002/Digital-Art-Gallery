@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -89,59 +90,6 @@ public class AuthController {
                 .body(new ResponseDTO(VarList.Created, "Success", authDTO));
     }
 
-    @GetMapping(path = "/verifyAccessToken")
-    public ResponseEntity<ResponseDTO> verifyAccessToken(@RequestHeader("Authorization") String authorization) {
-        try {
-            String googleToken = authorization.substring(7);
-            // Use GsonFactory instead of JacksonFactory
-            JsonFactory jsonFactory = new GsonFactory(); // Create a JsonFactory instance using GsonFactory
-
-            // Verify the token with Google
-            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), jsonFactory)
-                    .setAudience(Collections.singletonList(clientId)) // Replace with your Google client ID
-                    .build();
-
-            // Verify the Google ID token
-            GoogleIdToken idToken = verifier.verify(googleToken);
-            if (idToken == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(new ResponseDTO(VarList.Unauthorized, "Invalid Google Token", null));
-            }
-
-            // Token is valid, extract user details
-            Payload payload = idToken.getPayload();
-            String email = payload.getEmail();  // User's email
-            String name = (String) payload.get("name");  // User's name
-            String pictureUrl = (String) payload.get("picture");  // User's picture URL
-            String locale = (String) payload.get("locale");  // User's locale (optional)
-
-            // Log the extracted details (for debugging)
-            System.out.println("User Info: " + email + ", " + name + ", " + pictureUrl);
-
-            // Check if user exists or create a new user
-            UserDTO user = userService.searchUser(email);
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(new ResponseDTO(VarList.Unauthorized, "Invalid Google Token", null));
-            }
-
-            // Generate a JWT token for your system (for session management)
-            String jwtToken = jwtUtil.generateToken(user);
-
-            // Return the tokens (Google Access Token + your system's JWT token)
-            Map<String, String> responseTokens = new HashMap<>();
-            responseTokens.put("accessToken", googleToken);  // Google access token
-            responseTokens.put("jwtToken", jwtToken);        // Your system's JWT token
-
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new ResponseDTO(VarList.Created, "Access Token Verified", responseTokens));
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseDTO(VarList.Bad_Gateway, "Google authentication failed", e.getMessage()));
-        }
-    }
-
     @GetMapping("/oauth2Login")
     public RedirectView oauth2Login(@RequestParam("code") String code) throws IOException {
         String accessTokenGoogle = getOauthAccessTokenGoogle(code);
@@ -172,13 +120,13 @@ public class AuthController {
         String jwtToken = jwtUtil.generateToken(user);
 
         String redirectUrl = UriComponentsBuilder
-                .fromUriString("http://localhost:63342/Digital%20Art%20Gallery/FrontEnd/index.html")
+                .fromUriString("http://localhost:63342/Digital-Art-Gallery/FrontEnd/index.html")
                 .queryParam("jwtToken", jwtToken)
                 .queryParam("accessToken", accessTokenGoogle)
                 .build()
                 .toUriString();
 
-        if (isNew) {
+        if (!isNew) {
             mailService.sendLoggedInEmail(name, email, "Login Alert!");
         } else {
             mailService.sendRegisteredEmail(name, email, "Registered Successfully!");
@@ -186,6 +134,30 @@ public class AuthController {
 
         return new RedirectView(redirectUrl);
     }
+
+    @PostMapping("/sendOtp")
+    public ResponseEntity<ResponseDTO> sendOtp(@RequestParam String email) {
+        mailService.sendOptEmail(email);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(VarList.Created, "Opt Sent Success", null));
+    }
+
+    @PostMapping("/verifyOtp")
+    public ResponseEntity<ResponseDTO> verifyOtp(@RequestParam int otp, @RequestParam String pw, @RequestParam String email) {
+        boolean isValid = mailService.verifyOtp(otp);
+        if (isValid){
+            UserDTO userDTO = userService.searchUser(email);
+            if (userDTO == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDTO(VarList.Not_Found, "User Not Found", null));
+            }
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encode = passwordEncoder.encode(pw);
+            userDTO.setPassword(encode);
+            userService.updateUser(userDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(VarList.OK, "Success", null));
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO(VarList.Unauthorized, "Invalid OTP", null));
+    }
+
 
     private String getOauthAccessTokenGoogle(String code) {
         RestTemplate restTemplate = new RestTemplate();

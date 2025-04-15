@@ -97,7 +97,46 @@
                     </ul>
                 </div>
                 <div class="col-md-2 d-flex align-items-center">
-                    <button type="submit" class="btn btn-outline-primary w-100">Edit Profile</button>
+                    <button id="editProfileModalBtn" type="button"
+                            class="btn btn-outline-primary w-100"
+                            data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                        Edit Profile
+                    </button>
+                    <!-- Edit Profile Modal -->
+                    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Profile</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form id="editProfileForm">
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="editName" class="form-label">Name</label>
+                                            <input type="text" class="form-control" id="editName" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editEmail" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="editEmail" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editPhone" class="form-label">Phone</label>
+                                            <input type="text" class="form-control" id="editPhone">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editAddress" class="form-label">Address</label>
+                                            <input type="text" class="form-control" id="editAddress">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -185,6 +224,7 @@
 <script src="framework/jquery/jquery-3.7.1.min.js"></script>
 <script src="framework/sweetalert2/sweetalert2@11.js"></script>
 <script src="js/util.js"></script>
+<script src="js/profile.js"></script>
 <script>
     $(document).ready(function () {
         let changeProfileImageBtn = $('#changeProfileImageBtn');
@@ -304,6 +344,74 @@
                 }
             })
         })
+
+        $('#editProfileModalBtn').click(function (e) {
+            let jwtToken = localStorage.getItem("jwtToken");
+
+            $.ajax({
+                url: `http://localhost:8080/api/v1/user/profile`,
+                type: 'GET',
+                headers: {"Authorization": "Bearer " + jwtToken},
+                success: function (res) {
+                    let currentProfile = res.data;
+                    $('#editName').val(currentProfile.name);
+                    $('#editEmail').val(currentProfile.email);
+                    $('#editPhone').val(currentProfile.contact || '');
+                    $('#editAddress').val(currentProfile.address || '');
+                },
+                error: function (error) {
+                    showAlertThenRedirect(
+                        "error",
+                        "Oops...",
+                        "Something went wrong!",
+                        "index.html")
+                }
+            })
+        });
+
+        $('#editProfileForm').submit(function (e) {
+            e.preventDefault();
+
+            const jwtToken = localStorage.getItem("jwtToken");
+
+            const updatedProfile = {
+                name: $('#editName').val(),
+                email: $('#editEmail').val(),
+                contact: $('#editPhone').val(),
+                address: $('#editAddress').val()
+            };
+
+            $.ajax({
+                url: `http://localhost:8080/api/v1/user/profile/update`,
+                type: 'PUT',
+                headers: {
+                    "Authorization": "Bearer " + jwtToken
+                },
+                contentType: "application/json",
+                data: JSON.stringify(updatedProfile),
+                success: function (res) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Profile Updated!",
+                        timer: 2000
+                    }).then(() => {
+                        $('#editProfileModal').modal('hide');
+                        setProfileData(); // reload details
+                        loadNavProfile(); // reload nav info
+                        window.location.reload(); // reload page
+                    });
+                },
+                error: function (err) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Update Failed",
+                        text: "Something went wrong!",
+                        timer: 2000
+                    });
+                }
+            });
+        });
+
 
         loadNavProfile()
         setProfileData()

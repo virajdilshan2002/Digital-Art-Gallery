@@ -5,4 +5,8 @@ public interface MailService {
     void sendLoggedInEmail(String userName, String toEmail, String subject);
 
     void sendRegisteredEmail(String name, String email, String subject);
+
+    void sendOptEmail(String email);
+
+    boolean verifyOtp(int otp);
 }

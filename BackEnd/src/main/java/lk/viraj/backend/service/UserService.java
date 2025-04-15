@@ -4,6 +4,8 @@ import lk.viraj.backend.dto.ProfileDTO;
 import lk.viraj.backend.dto.UserDTO;
 
 public interface UserService {
+    void updatePassword(String newPw);
+
     void updateUser(UserDTO userDTO);
 
     int saveUser(UserDTO userDTO);

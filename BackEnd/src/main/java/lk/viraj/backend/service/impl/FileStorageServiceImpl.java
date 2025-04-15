@@ -20,7 +20,8 @@ public class FileStorageServiceImpl implements FileStorageService {
     private static final String USERS_DIR = "users\\";
 
     private static final String FRONTEND_DIRECTORY = "assets\\sys\\";
-    private static final String DEFAULT_DIRECTORY = "C:\\Users\\asus\\Desktop\\Digital Art Gallery\\FrontEnd\\" + FRONTEND_DIRECTORY;
+//    private static final String DEFAULT_DIRECTORY = "C:\\Users\\asus\\Desktop\\Digital Art Gallery\\FrontEnd\\" + FRONTEND_DIRECTORY;
+    private static final String DEFAULT_DIRECTORY = "C:\\Users\\kaveen\\Desktop\\Digital-Art-Gallery\\FrontEnd\\" + FRONTEND_DIRECTORY;
     private static final String ITEM_UPLOAD_DIR = DEFAULT_DIRECTORY + ITEMS_DIR;
     private static final String USER_PROFILE_UPLOAD_DIR = DEFAULT_DIRECTORY + USERS_DIR;
 
@@ -42,7 +43,8 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Override
     public void deleteImage(String imagePath) {
         try {
-            Path path = Paths.get("C:\\Users\\asus\\Desktop\\Digital Art Gallery\\FrontEnd\\" + imagePath);
+//            Path path = Paths.get("C:\\Users\\asus\\Desktop\\Digital Art Gallery\\FrontEnd\\" + imagePath);
+            Path path = Paths.get("C:\\Users\\kaveen\\Desktop\\Digital-Art-Gallery\\FrontEnd\\" + imagePath);
             Files.delete(path);
         } catch (Exception e) {
             System.err.println("Failed to delete image: " + e.getMessage());

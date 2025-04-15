@@ -156,15 +156,22 @@
                                             <div class="col-md-6">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control shadow-sm rounded-4" id="adminName"
-                                                           name="price" min="0" step="0.01" placeholder=" " required>
-                                                    <label for="price">Admin Name</label>
+                                                           name="name" min="0" step="0.01" placeholder=" " required>
+                                                    <label for="adminName">Admin Name</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-sm rounded-4" id="adminDesc"
-                                                           name="qty" min="1" placeholder=" " required>
-                                                    <label for="qty">Password</label>
+                                                    <input type="text" class="form-control shadow-sm rounded-4" id="adminEmail"
+                                                           name="email" min="0" step="0.01" placeholder=" " required>
+                                                    <label for="adminEmail">Email</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control shadow-sm rounded-4" id="adminPw"
+                                                           name="password" min="1" placeholder="" required>
+                                                    <label for="adminPw">Password</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -236,13 +243,13 @@
                     </div>
 
                     <!-- Post Art Modal -->
-                    <div class="modal fade" id="artPostModal" tabindex="-1" aria-labelledby="artPostModalLabel"
+                    <!--<div class="modal fade" id="artPostModal" tabindex="-1" aria-labelledby="artPostModalLabel"
                          aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content border-0 rounded-5 shadow-lg"
                                  style="background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);">
 
-                                <!-- Modal Header -->
+                                &lt;!&ndash; Modal Header &ndash;&gt;
                                 <div class="modal-header border-0 py-3"
                                      style="background: linear-gradient(135deg, #2a58b6, #222222); color: #ffffff;">
                                     <h2 class="modal-title fw-bold" id="artPostModalLabel">Upload Your Artwork</h2>
@@ -250,13 +257,13 @@
                                             data-bs-dismiss="modal"></button>
                                 </div>
 
-                                <!-- Modal Body -->
+                                &lt;!&ndash; Modal Body &ndash;&gt;
                                 <div class="modal-body p-4">
                                     <form id="postArtForm" class="needs-validation">
 
                                         <div class="d-flex flex-row column-gap-3 w-100">
                                             <div class="d-flex flex-column row-gap-3 w-50">
-                                                <!-- Category Selector -->
+                                                &lt;!&ndash; Category Selector &ndash;&gt;
                                                 <div class="form-floating mb-3">
                                                     <select class="form-select shadow-sm rounded-4" id="categorySelect"
                                                             required>
@@ -264,7 +271,7 @@
                                                     <label for="categorySelect">Art Category</label>
                                                 </div>
 
-                                                <!-- Art Name -->
+                                                &lt;!&ndash; Art Name &ndash;&gt;
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control shadow-sm rounded-4" id="name"
                                                            name="name"
@@ -272,14 +279,14 @@
                                                     <label for="name">Art Name</label>
                                                 </div>
 
-                                                <!-- Description -->
+                                                &lt;!&ndash; Description &ndash;&gt;
                                                 <div class="form-floating mb-3">
                                                     <textarea class="form-control shadow-sm rounded-4" id="description" name="description" rows="3" required></textarea>
                                                     <label for="description">Description</label>
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-column row-gap-3 w-50">
-                                                <!-- Upload item Photo -->
+                                                &lt;!&ndash; Upload item Photo &ndash;&gt;
                                                 <div class="col-md-4 text-center w-100 h-100">
                                                     <div class="position-relative d-flex flex-column align-items-center w-100 h-100 row-gap-2">
                                                         <img id="selectItemPhotoPreview"
@@ -297,7 +304,7 @@
                                         </div>
 
 
-                                        <!-- Price & Quantity -->
+                                        &lt;!&ndash; Price & Quantity &ndash;&gt;
                                         <div class="row g-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating">
@@ -317,7 +324,7 @@
                                     </form>
                                 </div>
 
-                                <!-- Modal Footer -->
+                                &lt;!&ndash; Modal Footer &ndash;&gt;
                                 <div class="modal-footer border-0 d-flex justify-content-center py-3">
                                     <button type="button" class="btn btn-light rounded-pill px-4 shadow-sm"
                                             data-bs-dismiss="modal">Cancel
@@ -329,7 +336,91 @@
                             </div>
                         </div>
                     </div>
+-->
 
+                    <!-- Post Art Modal -->
+                    <div class="modal fade" id="artPostModal" tabindex="-1" aria-labelledby="artPostModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content border-0 rounded-5 shadow-lg"
+                                 style="background: #ffffff; color: #333;">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header border-0 py-3"
+                                     style="background: linear-gradient(135deg, #f8f9fa, #e3e6ec); color: #2c3e50;">
+                                    <h2 class="modal-title fw-semibold" id="artPostModalLabel">Upload Your Artwork</h2>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <!-- Modal Body -->
+                                <div class="modal-body p-4">
+                                    <form id="postArtForm" class="needs-validation">
+
+                                        <div class="d-flex flex-row column-gap-3 w-100">
+                                            <div class="d-flex flex-column row-gap-3 w-50">
+                                                <!-- Category Selector -->
+                                                <div class="form-floating mb-3">
+                                                    <select class="form-select shadow-sm rounded-4 border-0 bg-light text-dark" id="categorySelect" required></select>
+                                                    <label for="categorySelect">Art Category</label>
+                                                </div>
+
+                                                <!-- Art Name -->
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control shadow-sm rounded-4 border-0 bg-light text-dark" id="name" name="name" placeholder=" " required>
+                                                    <label for="name">Art Name</label>
+                                                </div>
+
+                                                <!-- Description -->
+                                                <div class="form-floating mb-3">
+                                                    <textarea class="form-control shadow-sm rounded-4 border-0 bg-light text-dark" id="description" name="description" rows="3" required></textarea>
+                                                    <label for="description">Description</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex flex-column row-gap-3 w-50">
+                                                <!-- Upload item Photo -->
+                                                <div class="col-md-4 text-center w-100 h-100">
+                                                    <div class="position-relative d-flex flex-column align-items-center w-100 h-100 row-gap-2">
+                                                        <img id="selectItemPhotoPreview"
+                                                             src="assets/img/items/art.png"
+                                                             class="rounded-5 object-fit-cover shadow-sm border"
+                                                             alt="Item Image"
+                                                             style="width: 210px; height: 200px; background-color: #f8f9fa;">
+
+                                                        <input id="itemImageFileInput" type="file" name="itemImage"
+                                                               class="form-control mt-2 d-none" accept="image/*">
+
+                                                        <button id="chooseItemImageBtn" type="button" class="btn btn-outline-primary rounded-5">Choose</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Price & Quantity -->
+                                        <div class="row g-3 mt-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="number" class="form-control shadow-sm rounded-4 border-0 bg-light text-dark" id="price" name="price" min="0" step="0.01" required>
+                                                    <label for="price">Price (USD)</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating">
+                                                    <input type="number" class="form-control shadow-sm rounded-4 border-0 bg-light text-dark" id="qty" name="qty" min="1" required>
+                                                    <label for="qty">Quantity</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Modal Footer -->
+                                <div class="modal-footer border-0 d-flex justify-content-center py-3">
+                                    <button type="button" class="btn btn-secondary rounded-pill px-4 shadow-sm" data-bs-dismiss="modal">Cancel</button>
+                                    <button id="postArtBtn" type="button" class="btn btn-primary rounded-pill px-5 shadow-sm">Post Art</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -394,7 +485,6 @@
     $(document).ready(function () {
         loadNavProfile();
         getAllCategoriesAndSet()
-        postItemBtnClick()
     });
 </script>
 </body>

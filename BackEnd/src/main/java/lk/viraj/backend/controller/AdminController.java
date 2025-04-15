@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "api/v1/admin")
 @PreAuthorize("hasAuthority('ADMIN')")
-@CrossOrigin(value = "*")
+@CrossOrigin()
 public class AdminController {
     private final UserService userService;
     private final JwtUtil jwtUtil;

@@ -71,6 +71,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
+    public void updatePassword(String newPw){
+
+    }
+
+    @Override
     public void updateUser(UserDTO userDTO){
         try {
             userRepository.save(modelMapper.map(userDTO, User.class));

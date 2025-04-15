@@ -14,6 +14,8 @@ public class MailServiceImpl implements MailService {
 
     private final String sender = "virajdilshan2019@gmail.com";
 
+    private int generatedOtp;
+
     private String loginAlert(String userName){
         return String.format("""
         <html>
@@ -43,6 +45,23 @@ public class MailServiceImpl implements MailService {
           </body>
         </html>
         """, userName, dateTime);
+    }
+
+    private String generateOtpEmail() {
+         generatedOtp = (int) (Math.random() * 1000000);
+        String otpString = String.format("%06d", generatedOtp);
+
+        return String.format("""
+        <html>
+          <body style="font-family: sans-serif;">
+            <h2>OTP Verification</h2>
+            <p>Your OTP is: <strong>%s</strong></p>
+            <p>Please enter this OTP to verify your email address.</p>
+            <hr>
+            <p style="font-size: 12px; color: gray;">This is an automated message. Please do not reply to this email.</p>
+          </body>
+        </html>
+        """, generatedOtp);
     }
 
     @Override
@@ -75,5 +94,29 @@ public class MailServiceImpl implements MailService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void sendOptEmail(String email) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(sender);
+            helper.setTo(email);
+            helper.setSubject("OTP Verification");
+            helper.setText(generateOtpEmail(), true);
+
+            mailSender.send(message);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean verifyOtp(int otp) {
+        if (generatedOtp == otp){
+            return true;
+        }
+        return false;
     }
 }

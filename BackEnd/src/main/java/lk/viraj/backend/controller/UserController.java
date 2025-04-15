@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/v1/user")
 @CrossOrigin
@@ -40,7 +42,6 @@ public class UserController {
     @GetMapping(path = "/retrieve")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<ResponseDTO> retrieveUser(@RequestHeader("Authorization") String authorization) {
-        System.out.println("dfghjkl;");
         String role = userService.getUserRoleByToken(authorization.substring(7));
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(VarList.OK, "retrieved success", role));
     }
@@ -51,6 +52,17 @@ public class UserController {
         UserDTO user = userService.getUserByToken(authorization.substring(7));
         ProfileDTO profileDTO = userService.convertToProfileDTO(user);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(VarList.OK, "profile data retrieved success", profileDTO));
+    }
+
+    @PutMapping(path = "/profile/update")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public ResponseEntity<ResponseDTO> updateProfile(@RequestHeader("Authorization") String authorization, @RequestBody Map<String,String> profile) {
+        UserDTO user = userService.getUserByToken(authorization.substring(7));
+        user.setName(profile.get("name"));
+        user.setContact(profile.get("contact"));
+        user.setAddress(profile.get("address"));
+        userService.updateUser(user);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(VarList.OK, "profile updated success", null));
     }
 
     @PutMapping(path = "/profile/saveImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
