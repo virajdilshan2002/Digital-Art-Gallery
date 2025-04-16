@@ -16,7 +16,7 @@ This is a web-based platform designed to help artists showcase and sell their ha
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/art-selling-platform.git
+   https://github.com/virajdilshan2002/Digital-Art-Gallery.git
 
 2. Run the project frist
 3. Open index.html or use firebase link [index](https://digitalartgallery-2025.web.app/)
