@@ -120,7 +120,7 @@ public class AuthController {
         String jwtToken = jwtUtil.generateToken(user);
 
         String redirectUrl = UriComponentsBuilder
-                .fromUriString("http://localhost:63342/Digital-Art-Gallery/FrontEnd/index.html")
+                .fromUriString("https://digitalartgallery-2025.web.app/index.html")
                 .queryParam("jwtToken", jwtToken)
                 .queryParam("accessToken", accessTokenGoogle)
                 .build()

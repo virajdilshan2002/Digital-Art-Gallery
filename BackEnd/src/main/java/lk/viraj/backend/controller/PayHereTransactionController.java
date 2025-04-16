@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -55,21 +56,18 @@ public class PayHereTransactionController {
         // 1. Fetch item/payment info from DB
         String merchantId = clientId;
         String orderId = UUID.randomUUID().toString();
-        String amount = String.valueOf(item.getPrice()); // Your logic here
+        String amount = item.getPrice().setScale(2, RoundingMode.HALF_UP).toPlainString();
         String currency = "LKR";
         String merchantSecret = secret;
 
-        String hash = generateHash(merchantId, orderId, Double.parseDouble(amount), currency, merchantSecret);
+        String hash = getMd5(merchantId + orderId + amount + currency + merchantSecret);
 
         Map<String, String> response = new HashMap<>();
         response.put("merchant_id", merchantId);
-        response.put("order_id", orderId);
-        response.put("items", item.getName());
-        response.put("amount", amount);
-        response.put("currency", currency);
-        response.put("hash", hash);
+        response.put("return_url", "http://localhost:63342/Digital-Art-Gallery/FrontEnd/success.html");
+        response.put("cancel_url", "http://localhost:63342/Digital-Art-Gallery/FrontEnd/cancel.html");
+        response.put("notify_url", "http://sample.com/notify");
 
-        // Add other info (user, address etc.)
         response.put("first_name", item.getUser().getName());
         response.put("last_name", "Not Provided");
         response.put("email", item.getUser().getEmail());
@@ -78,33 +76,49 @@ public class PayHereTransactionController {
         response.put("city", "Not Provided");
         response.put("country", "Sri Lanka");
 
-        response.put("return_url", "http://localhost:63342/Digital-Art-Gallery/FrontEnd/success.html");
-        response.put("cancel_url", "http://localhost:63342/Digital-Art-Gallery/FrontEnd/cancel.html");
-        response.put("notify_url", "http://localhost:8080/api/v1/payhere/notify");
+        response.put("order_id", orderId);
+        response.put("items", item.getName());
+        response.put("amount", amount);
+        response.put("currency", currency);
+        response.put("hash", hash);
 
         return ResponseEntity.ok(new ResponseDTO(200, "Received", response));
     }
 
-    public String generateHash(String merchantId, String orderId, double amountDouble, String currency, String merchantSecret) {
-        // Format amount to 2 decimal places (e.g., "1200.00")
-        String amount = String.format("%.2f", amountDouble);
-
-        // Construct data string for hashing
-        String dataToHash = merchantId + orderId + amount + currency + merchantSecret;
-
-        // Debugging output (optional but helpful)
-        System.out.println("Hash Input: " + dataToHash);
+    private String generateHash(String merchantId, String orderId, double amount, String currency, String merchantSecret) {
+        String formattedAmount = String.format("%.2f", amount);
+        String hashString = merchantId + orderId + formattedAmount + currency + merchantSecret;
 
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] digest = md.digest(dataToHash.getBytes(StandardCharsets.UTF_8));
-            String hash = String.format("%032x", new BigInteger(1, digest));
-            System.out.println("Generated Hash: " + hash); // Optional: log the hash
-            return hash;
+            byte[] hashBytes = md.digest(hashString.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+
+            for (byte b : hashBytes) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("MD5 algorithm not found", e);
+            throw new RuntimeException("Failed to generate hash", e);
         }
     }
 
-
+    private String getMd5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            BigInteger no = new BigInteger(1, messageDigest);
+            String hashtext = no.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext.toUpperCase();
+        }
+        catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
