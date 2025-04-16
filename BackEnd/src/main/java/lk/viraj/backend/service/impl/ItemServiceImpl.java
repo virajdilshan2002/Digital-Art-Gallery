@@ -20,6 +20,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,6 +73,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemDTO> getAllItems() {
         List<Item> itemList = itemRepository.findAll();
+        Collections.reverse(itemList);
         return modelMapper.map(itemList, new TypeToken<List<ItemDTO>>() {}.getType());
     }
 

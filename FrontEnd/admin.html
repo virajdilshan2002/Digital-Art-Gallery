@@ -90,16 +90,7 @@
                 <div class="text-center"><h1 class="display-4 fw-bold mb-5">Welcome To Digital
                     Art&nbsp;<br><span id="userName"></span>!</h1>
                     <p class="fs-5 text-muted mb-5">Sell your digital art or, hand painted art.</p>
-                    <!--<div class="d-flex justify-content-center flex-wrap column-gap-2"
-                         data-bs-theme="light">
-                        <div class="shadow-lg mb-3">
-                            <input class="form-control" type="text" name="search"
-                                   placeholder="Art"></div>
-                        <div class="shadow-lg mb-3">
-                            <button class="btn btn-primary px-4" type="button">Search Art</button>
-                        </div>
 
-                    </div>-->
                     <div class="d-flex flex-wrap gap-3 p-3 justify-content-center">
                         <!--Add Admin Button-->
                         <button class="btn btn-gradient btn-outline-success fw-bold shadow rounded-5 px-4" type="button"
@@ -243,102 +234,6 @@
                     </div>
 
                     <!-- Post Art Modal -->
-                    <!--<div class="modal fade" id="artPostModal" tabindex="-1" aria-labelledby="artPostModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content border-0 rounded-5 shadow-lg"
-                                 style="background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);">
-
-                                &lt;!&ndash; Modal Header &ndash;&gt;
-                                <div class="modal-header border-0 py-3"
-                                     style="background: linear-gradient(135deg, #2a58b6, #222222); color: #ffffff;">
-                                    <h2 class="modal-title fw-bold" id="artPostModalLabel">Upload Your Artwork</h2>
-                                    <button type="button" class="btn-close btn-close-white"
-                                            data-bs-dismiss="modal"></button>
-                                </div>
-
-                                &lt;!&ndash; Modal Body &ndash;&gt;
-                                <div class="modal-body p-4">
-                                    <form id="postArtForm" class="needs-validation">
-
-                                        <div class="d-flex flex-row column-gap-3 w-100">
-                                            <div class="d-flex flex-column row-gap-3 w-50">
-                                                &lt;!&ndash; Category Selector &ndash;&gt;
-                                                <div class="form-floating mb-3">
-                                                    <select class="form-select shadow-sm rounded-4" id="categorySelect"
-                                                            required>
-                                                    </select>
-                                                    <label for="categorySelect">Art Category</label>
-                                                </div>
-
-                                                &lt;!&ndash; Art Name &ndash;&gt;
-                                                <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control shadow-sm rounded-4" id="name"
-                                                           name="name"
-                                                           placeholder=" " required>
-                                                    <label for="name">Art Name</label>
-                                                </div>
-
-                                                &lt;!&ndash; Description &ndash;&gt;
-                                                <div class="form-floating mb-3">
-                                                    <textarea class="form-control shadow-sm rounded-4" id="description" name="description" rows="3" required></textarea>
-                                                    <label for="description">Description</label>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-column row-gap-3 w-50">
-                                                &lt;!&ndash; Upload item Photo &ndash;&gt;
-                                                <div class="col-md-4 text-center w-100 h-100">
-                                                    <div class="position-relative d-flex flex-column align-items-center w-100 h-100 row-gap-2">
-                                                        <img id="selectItemPhotoPreview"
-                                                             src="assets/img/illustrations/desk.svg"
-                                                             class="rounded-5 object-fit-cover shadow" alt="Item Image"
-                                                             style="width: 210px; height: 200px;">
-
-                                                        <input id="itemImageFileInput" type="file" name="itemImage"
-                                                               class="form-control mt-2 d-none" accept="image/*">
-                                                        <button id="chooseItemImageBtn" type="button" class="btn btn-outline-success rounded-5">Choose</button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        &lt;!&ndash; Price & Quantity &ndash;&gt;
-                                        <div class="row g-3">
-                                            <div class="col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="number" class="form-control shadow-sm rounded-4" id="price"
-                                                           name="price" min="0" step="0.01" required>
-                                                    <label for="price">Price (USD)</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="number" class="form-control shadow-sm rounded-4" id="qty"
-                                                           name="qty" min="1" required>
-                                                    <label for="qty">Quantity</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                &lt;!&ndash; Modal Footer &ndash;&gt;
-                                <div class="modal-footer border-0 d-flex justify-content-center py-3">
-                                    <button type="button" class="btn btn-light rounded-pill px-4 shadow-sm"
-                                            data-bs-dismiss="modal">Cancel
-                                    </button>
-                                    <button id="postArtBtn" type="button"
-                                            class="btn rounded-pill btn-outline-dark px-5 shadow">Post Art
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
--->
-
-                    <!-- Post Art Modal -->
                     <div class="modal fade" id="artPostModal" tabindex="-1" aria-labelledby="artPostModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content border-0 rounded-5 shadow-lg"
@@ -400,7 +295,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-floating">
                                                     <input type="number" class="form-control shadow-sm rounded-4 border-0 bg-light text-dark" id="price" name="price" min="0" step="0.01" required>
-                                                    <label for="price">Price (USD)</label>
+                                                    <label for="price">Price (LKR)</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -421,58 +316,11 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </header>
-
-
-<!--<section class="bg-light py-5">
-    <div class="container text-center">
-        <h2 class="fw-bold mb-4">Explore Our Collections</h2>
-        <p class="text-muted mb-5">Dive into a wide range of digital and hand-painted art curated just for you.</p>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="assets/img/items/1.jpg" class="card-img-top" alt="Art 1"
-                         style="width: 100%; height: 250px; object-fit: cover;"
-                    >
-                    <div class="card-body">
-                        <h5 class="card-title">Abstract Painting</h5>
-                        <p class="card-text">Explore the beauty of abstract art with vibrant colors and textures.</p>
-                        <a href="" class="btn btn-primary">View More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="assets/img/items/2.jpg" class="card-img-top" alt="Art 2"
-                         style="width: 100%; height: 250px; object-fit: cover;"
-                    >
-                    <div class="card-body">
-                        <h5 class="card-title">Digital Landscape</h5>
-                        <p class="card-text">Discover breathtaking digital landscapes perfect for any collection.</p>
-                        <a href="" class="btn btn-primary">View More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="assets/img/items/3.jpg" class="card-img-top" alt="Art 3"
-                         style="width: 100%; height: 250px; object-fit: cover;"
-                    >
-                    <div class="card-body">
-                        <h5 class="card-title">Modern Art</h5>
-                        <p class="card-text">Experience the unique style of modern art with bold ideas and designs.</p>
-                        <a href="" class="btn btn-primary">View More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>-->
 
 <script src="framework/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="framework/jquery/jquery-3.7.1.min.js"></script>

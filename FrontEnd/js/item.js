@@ -21,9 +21,9 @@ function getAllItemsForBrowse() {
             }
             for (let item of response.data) {
                 itemBrowseContainer.append(`
-                <div class="bg-light" style="width: calc(100% / 3); max-height: 480px;">
+                <div class="bg-light" style="width: calc(100% / 4); max-height: 480px;">
                     <div class="h-50">
-                        <img class="w-100 h-100 object-fit-cover" loading="lazy" src="${item.image}" alt="Art"/>
+                        <img class="w-100 h-100 object-fit-cover" style="border-bottom-right-radius: 30px" loading="lazy" src="${item.image}" alt="Art"/>
                     </div>
                     <div>
                         <div>
@@ -67,7 +67,8 @@ function getAllItemsForAdmin() {
         },
         success: function (response) {
             if (response.data.length === 0) {
-                itemBrowseContainer.append('<div class="d-flex flex-column justify-content-center align-items-center w-100 bg-light text-dark" \n' +
+                itemBrowseContainer.append('' +
+                    '<div class="d-flex flex-column justify-content-center align-items-center w-100 bg-light text-dark" \n' +
                     '             style="height: 450px; border-radius: 10px;">\n' +
                     '            <i class="bi bi-search display-4"></i>\n' +
                     '            <h4 class="mt-3">No items posted yet</h4>\n' +
@@ -78,15 +79,15 @@ function getAllItemsForAdmin() {
 
             for (let item of response.data) {
                 itemBrowseContainer.append(`
-                <div class="bg-light" style="width: calc(100% / 4); max-height: 400px;">
+                <div class="bg-light" style="width: calc(100% / 4); max-height: 480px;">
                     <div class="h-50">
-                        <img class="w-100 h-100 object-fit-cover" loading="lazy" src="${item.image}" alt="Art"/>
+                        <img class="w-100 h-100 object-fit-cover" style="border-bottom-right-radius: 30px" loading="lazy" src="${item.image}" alt="Art"/>
                     </div>
                     <div>
                         <div>
                             <div>ON SALE</div>
                             <h5>${item.name}</h5>
-                            <p>${item.description}</p>
+                            <p class="overflow-y-scroll" style="height: 50px">${item.description}</p>
                             <p class="text-muted">Posted By: <a href="#">${item.user.name}</a></p>
                         </div>
                         <strong>LKR${item.price}</strong>
@@ -222,7 +223,7 @@ $('#myItemsBtn').click(function () {
                 itemBrowseContainer.append(`
                 <div class="bg-light" style="width: calc(100% / 4); height: 480px;">
                     <div class="h-50">
-                        <img class="w-100 h-100 object-fit-cover" loading="lazy" src="${item.image}" alt="Art"/>
+                        <img class="w-100 h-100 object-fit-cover" style="border-radius: 30px" loading="lazy" src="${item.image}" alt="Art"/>
                     </div>
                     <div>
                         <div>
